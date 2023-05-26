@@ -5,11 +5,13 @@ const axios = require("axios");
 export async function generateQRCode(string) {
     const options = {
         method: "GET",
-        url: "https://qrcodeutils.p.rapidapi.com/qrcodefree",
+        url: "https://qrcodeutils.p.rapidapi.com/qrcodepro",
         params: {
             text: string,
             validate: "true",
             size: "300",
+            setlabel: 'true',
+            labelalign: 'center',
             type: "svg",
             level: "H",
         },

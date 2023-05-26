@@ -19,7 +19,9 @@ export default function serializeInvoice(data) {
     const INV_TAX_AMOUNT = Number(tax_invoice_amount);
     const INV_TAX_NO = Number(invoice_no);
 
-    const invoiceData = `${SYSTEM_IDENTIFICATION}|${SUPP_INV_NO}|${AMOUNT_BEFORE_TAX.toFixed(
+    const SYSTEM_ID = SYSTEM_IDENTIFICATION.toString()
+
+    const invoiceData = `${SYSTEM_ID}|${SUPP_INV_NO}|${AMOUNT_BEFORE_TAX.toFixed(
         2
     )}|${TOTAL_INVOICE_AMOUNT.toFixed(2)} |${INV_TAX_AMOUNT.toFixed(
         2

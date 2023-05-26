@@ -46,14 +46,14 @@ export default function Form() {
 
     const submitData = async (data) => {
         const visionKey = "VISION0123456789";
-        const secretKey = visionKey.length * 8;
+        // const secretKey = visionKey.length * 8;
         const invoice = serializeInvoice(data);
-        // console.log(invoice);
+        console.log(invoice);
 
         const jsonForEncrypt = {
             encryption_text: invoice,
             secret_key: visionKey,
-            secret_iv: null,
+            secret_iv: "",
             key_size: 128,
             output_type: "Base64",
             mode: "CBC",
@@ -72,12 +72,11 @@ export default function Form() {
             // const res = generateQRCode(encryptionValues)
             // console.log(res.data);
             setResponse(res.data);
-            // setInput(res.data)
         } catch (error) {
             console.log(error);
         }
-
-        // console.log(generateQR);
+        const pdfFile = document.getElementById("select_file");
+        console.log(pdfFile);
     };
 
     // TODO: Standard snippet to download the QR Code SVG
@@ -91,24 +90,9 @@ export default function Form() {
     };
 
     // TODO: Download SVG as PNG
-    const downloadAsPng = () => {
-        let v = null;
-
-        window.onload = () => {
-            const canvas = document.querySelector("canvas");
-            const ctx = canvas.getContext("2d");
-
-            // Read SVG string
-            v = Canvg.fromString(ctx, response);
-
-            // start drawing the SVG to Canvas
-            v.start();
-
-            // Convert The Canvas to image
-            const image = canvas.toDataURL("img/png");
-
-            document.write('<img src="' + img + '"/>');
-        };
+    const embedSvg2Pdf = () => {
+        const pdfFile = document.getElementById("select_file");
+        console.log(pdfFile);
     };
 
     return (
@@ -266,6 +250,17 @@ export default function Form() {
                                     name='total_invoice_amount'
                                 />
                             </NumberInput>
+
+                            {/* <FormLabel htmlFor='select_file'>
+                                Select File
+                            </FormLabel>
+                            <Input p={1}
+                                {...register("select_file")}
+                                type='file'
+                                name='select_file'
+                                id="select_file"
+                                accept="image/*.pdf"
+                            /> */}
                             {errors.total_invoice_amount && (
                                 <AlertInput
                                     message={
@@ -287,11 +282,12 @@ export default function Form() {
                             <Box
                                 as='div'
                                 border='dashed'
+                                borderColor='blackAlpha.500'
+                                borderRadius='10'
                                 width={280}
                                 height={280}
                                 justifyItems='center'
                                 justifyContent='center'
-                                
                             >
                                 <Box>
                                     <SVG src={response} />
@@ -308,7 +304,14 @@ export default function Form() {
                         </div>
                     ) : (
                         <div>
-                            <Box border='dashed' width={400} height={400}></Box>
+                            <Box
+                                bas='div'
+                                border='dashed'
+                                borderColor='blackAlpha.500'
+                                borderRadius='10'
+                                width={280}
+                                height={280}
+                            ></Box>
                         </div>
                     )}
                 </Box>

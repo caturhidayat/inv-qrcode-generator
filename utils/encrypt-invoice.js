@@ -5,16 +5,11 @@ export let encryption = (event) => {
     var iv = CryptoJS.enc.Utf8.parse(event.secret_iv);
 
     try {
-        var encrypted = CryptoJS.AES.encrypt(
-            event.encryption_text,
-            event.secret_key,
-            {
-                keySize: event.key_size / 32,
-                iv: iv,
-                mode:
-                    event.mode == "CBC" ? CryptoJS.mode.CBC : CryptoJS.mode.ECB,
-            }
-        );
+        var encrypted = CryptoJS.AES.encrypt(event.encryption_text, key, {
+            keySize: event.key_size / 32,
+            iv: iv,
+            mode: event.mode == "CBC" ? CryptoJS.mode.CBC : CryptoJS.mode.ECB,
+        });
         return encrypted.toString(
             event.output_type == "HEX"
                 ? CryptoJS.format.Hex
