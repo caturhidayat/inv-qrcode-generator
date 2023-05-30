@@ -1,37 +1,29 @@
-import axios from "axios";
-import { response } from "express";
+import QRCode from "qrcode";
 
 export default function handler(req, res) {
     const { encryptionValues } = req.query;
-    console.log(encryptionValues)
-    const qr_text = req.body
-    if (req.method === "GET") {
-        const options = {
-            method: "GET",
-            url: "https://qrcodeutils.p.rapidapi.com/qrcodefree",
-            params: {
-                text: encryptionValues,
-                validate: "true",
-                size: "300",
-                type: "svg", // type: svg, png etc
-                level: "H", // level of validation
-            },
-            headers: {
-                "X-RapidAPI-Key": process.env.NEXT_PUBLIC_RAPIDAPI_KEY,
-                "X-RapidAPI-Host": "qrcodeutils.p.rapidapi.com",
-            },
-        };
+    // console.log(encryptionValues);
 
-        axios
-            .request(options)
+    if (req.method === "GET") {
+        QRCode.toDataURL(encryptionValues, {
+            // scale: 2,
+            width: 250
+        })
             .then((response) => {
-                // console.log(response.data)
-                res.status(200).json(response.data);
+                // console.log(response)
+                res.status(200).json(response);
             })
             .catch((error) => {
-                console.log(error)
-            })
+                console.log(error);
+            });
     } else {
-        res.status(400)
+        res.status(400);
     }
+
+    // .then((url) => {
+    //     return url;
+    // })
+    // .catch((err) => {
+    //     console.log(err);
+    // });
 }

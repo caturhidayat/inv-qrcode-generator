@@ -10,15 +10,16 @@ import {
     NumberInputField,
     Spacer,
     Flex,
+    Image
 } from "@chakra-ui/react";
+// import Image from "next/image";
 import { useForm } from "react-hook-form";
 import serializeInvoice from "@/utils/serialize";
 import { encryption } from "@/utils/encrypt-invoice";
-import { generateQRCode } from "@/utils/generate-qrcode";
 import { useState } from "react";
 import axios from "axios";
 import SVG from "react-inlinesvg";
-import { Canvg } from "canvg";
+import PdfModify from "./pdfModify";
 
 export default function Form() {
     const {
@@ -48,7 +49,7 @@ export default function Form() {
         const visionKey = "VISION0123456789";
         // const secretKey = visionKey.length * 8;
         const invoice = serializeInvoice(data);
-        console.log(invoice);
+        // console.log(invoice);
 
         const jsonForEncrypt = {
             encryption_text: invoice,
@@ -63,9 +64,21 @@ export default function Form() {
 
         console.log(encryptionValues);
 
-        // TODO: Generate QR Code
+        // TODO: Generate QR Code with API
+        // try {
+        //     // setInput(encryptionValues)
+        //     const res = await axios.get("/api/qrcodepro", {
+        //         params: { encryptionValues },
+        //     });
+        //     // const res = generateQRCode(encryptionValues)
+        //     console.log(res.data);
+        //     setResponse(res.data);
+        // } catch (error) {
+        //     console.log(error);
+        // }
+
+        // TODO: Generate QR Code with module
         try {
-            // setInput(encryptionValues)
             const res = await axios.get("/api/qrcode", {
                 params: { encryptionValues },
             });
@@ -75,16 +88,16 @@ export default function Form() {
         } catch (error) {
             console.log(error);
         }
-        const pdfFile = document.getElementById("select_file");
-        console.log(pdfFile);
+
+        // console.log({qr: qr.data})
     };
 
-    // TODO: Standard snippet to download the QR Code SVG
+    // TODO: Standard snippet to download the QR Code
     const downloadQRCode = () => {
         const url = window.URL.createObjectURL(new Blob([response]));
         const urlObject = document.createElement("a");
         urlObject.href = url;
-        urlObject.setAttribute("download", "file.svg");
+        urlObject.setAttribute("download", 'file.png');
         document.body.appendChild(urlObject);
         urlObject.click();
     };
@@ -98,7 +111,7 @@ export default function Form() {
     return (
         <>
             <Flex gap='80px'>
-                <Box mt={4}>
+                <Box>
                     <Heading size='lg'>Input Data Here : 👇🏼</Heading>
                     <form onSubmit={handleSubmit(submitData)}>
                         <FormControl>
@@ -250,17 +263,6 @@ export default function Form() {
                                     name='total_invoice_amount'
                                 />
                             </NumberInput>
-
-                            {/* <FormLabel htmlFor='select_file'>
-                                Select File
-                            </FormLabel>
-                            <Input p={1}
-                                {...register("select_file")}
-                                type='file'
-                                name='select_file'
-                                id="select_file"
-                                accept="image/*.pdf"
-                            /> */}
                             {errors.total_invoice_amount && (
                                 <AlertInput
                                     message={
@@ -268,15 +270,18 @@ export default function Form() {
                                     }
                                 />
                             )}
-
-                            <Button type='submit' mt={4} colorScheme='teal'>
-                                Generate
+                            <Spacer />
+                            <Button type='submit' mt={4} colorScheme='orange'>
+                                Generate QR
                             </Button>
                             <Spacer />
                         </FormControl>
                     </form>
                 </Box>
                 <Box>
+                    <Heading size='md' my='30'>
+                        QR Code will appear here : 👇🏼
+                    </Heading>
                     {response ? (
                         <div>
                             <Box
@@ -289,31 +294,37 @@ export default function Form() {
                                 justifyItems='center'
                                 justifyContent='center'
                             >
-                                <Box>
-                                    <SVG src={response} />
-                                </Box>
-                                {/* <canvas id="myCanvas">{response}</canvas> */}
+                                {/* <SVG src={response} /> */}
+                                <Image src={response} alt="qrcode" width='270' height='270' />
                             </Box>
-                            <Button
+                            {/* <FormLabel mt='5' htmlFor='select_file'>
+                                Download QR-CODE as SVG?? 🍺🍺
+                            </FormLabel> */}
+                            {/* <Button
                                 onClick={() => downloadQRCode()}
-                                mt={4}
-                                colorScheme='linkedin'
+                                my='2'
+                                colorScheme='facebook'
                             >
-                                Download
-                            </Button>
+                                Download QR
+                            </Button> */}
+
+                            <FormLabel mt='5' htmlFor='select_file'>
+                                QR Code Generated 🔥
+                            </FormLabel>
+                            <br />
+                            <PdfModify qrcode={response} />
                         </div>
-                    ) : (
-                        <div>
-                            <Box
-                                bas='div'
-                                border='dashed'
-                                borderColor='blackAlpha.500'
-                                borderRadius='10'
-                                width={280}
-                                height={280}
-                            ></Box>
-                        </div>
-                    )}
+                    ) : // <div>
+                    //     <Box
+                    //         bas='div'
+                    //         border='dashed'
+                    //         borderColor='blackAlpha.500'
+                    //         borderRadius='10'
+                    //         width={280}
+                    //         height={280}
+                    //     ></Box>
+                    // </div>
+                    null}
                 </Box>
             </Flex>
         </>
