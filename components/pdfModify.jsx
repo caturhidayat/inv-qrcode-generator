@@ -59,7 +59,9 @@ export default function PdfModify({ qrcode }) {
             // console.log(reader.result)
             const arrayBuffer = reader.result;
             console.log(arrayBuffer);
-            const pngImageBytes = await fetch(qrcode).then((res)=> res.arrayBuffer())
+            const pngImageBytes = await fetch(qrcode).then((res) =>
+                res.arrayBuffer()
+            );
 
             // TODO: Load a PDFFoc from existing PDF Bytes
             const pdfDoc = await PDFDocument.load(arrayBuffer);
@@ -69,7 +71,7 @@ export default function PdfModify({ qrcode }) {
             // page.moveTo(100, page.getHeight() -5)
 
             // TODO: Embed PNG image bytes
-            const pngImage = await pdfDoc.embedPng(pngImageBytes)
+            const pngImage = await pdfDoc.embedPng(pngImageBytes);
 
             // const helvetica = await pdfDoc.embedStandardFont(
             //     StandardFonts.Helvetica
@@ -88,15 +90,14 @@ export default function PdfModify({ qrcode }) {
             // console.log({ qr: qrcode });
 
             // SVGtoPDF(firstPage, qrcode, 5, 5)
- 
+
             // TODO: Draw PNG image to PDF
             firstPage.drawImage(pngImage, {
                 x: width / 14 - 10,
                 y: height / 4 + 30,
                 width: 150,
-                height: 150
-            })
-
+                height: 150,
+            });
 
             // firstPage.drawText("This text was added with JavaScript!", {
             //     x: 5,
@@ -128,14 +129,17 @@ export default function PdfModify({ qrcode }) {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-                {console.log(pdffile)}
+                {/* {console.log(pdffile)} */}
                 {pdffile ? (
-                    <embed
-                        src={pdffile}
-                        alt='image'
-                        width='100'
-                        height='200'
-                    />
+                    // <embed
+                    //     src={pdffile}
+                    //     alt='image'
+                    //     width='100'
+                    //     height='200'
+                    // />
+                    <Text>
+                        embedded QR to PDF already done!!! 🎉
+                    </Text>
                 ) : null}
                 {!watch("files") || watch("files").length === 0 ? (
                     <div>
