@@ -1,4 +1,4 @@
-import { FormLabel, Input, Button, Text, Image } from "@chakra-ui/react";
+import { Box, FormLabel, Input, Button, Text, Image } from "@chakra-ui/react";
 import * as yup from "yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -137,9 +137,19 @@ export default function PdfModify({ qrcode }) {
                     //     width='100'
                     //     height='200'
                     // />
-                    <Text>
-                        embedded QR to PDF already done!!! 🎉
-                    </Text>
+                    <Box>
+                        <Text>embedded QR to PDF already done!!! 🎉</Text>
+                        <FormLabel mt='5' htmlFor='select_file'>
+                            Download PDF with QR?? 🍔🍔🍔
+                        </FormLabel>
+                        <Button
+                            onClick={downloadPDF}
+                            mt='2'
+                            colorScheme='facebook'
+                        >
+                            Download PDF
+                        </Button>
+                    </Box>
                 ) : null}
                 {!watch("files") || watch("files").length === 0 ? (
                     <div>
@@ -163,12 +173,7 @@ export default function PdfModify({ qrcode }) {
                     Submit
                 </Button> */}
                 <br />
-                <FormLabel mt='5' htmlFor='select_file'>
-                    Download PDF with QR?? 🍔🍔🍔
-                </FormLabel>
-                <Button onClick={downloadPDF} mt='2' colorScheme='facebook'>
-                    Download PDF
-                </Button>
+
                 {errors.files && <AlertInput message={errors.files.message} />}
             </form>
         </div>
