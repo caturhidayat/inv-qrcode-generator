@@ -14,7 +14,7 @@ import serializeInvoice from "@/utils/serialize";
 import { encryption } from "@/utils/encrypt-invoice";
 import {  useState } from "react";
 import axios from "axios";
-import PdfModify from "./PdfModify";
+import PdfModify from "./pdfModify";
 import { FormSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
