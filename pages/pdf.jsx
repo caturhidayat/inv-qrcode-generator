@@ -1,4 +1,4 @@
-import PdfModify from "@/components/PdfModify";
+import PdfModify from "@/components/pdfModify";
 import Layout from "@/components/Layout";
 
 export default function Pdf() {
