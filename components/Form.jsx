@@ -115,7 +115,7 @@ export default function Form() {
     return (
         <>
             <Flex gap='80px'>
-                <Box>
+                <Box my='5'>
                     <Heading size='lg'>Input Data Here : 👇🏼</Heading>
                     <form onSubmit={handleSubmit(submitData)}>
                         <FormControl>

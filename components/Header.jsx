@@ -26,8 +26,11 @@ export default function Header() {
                 <Button>
                     <Link href='/' >Home</Link>    
                 </Button>
-                <Button>
+                {/* <Button>
                     <Link href='/pdf'>PDF</Link>
+                </Button> */}
+                <Button>
+                    <Link href='/decrypt'>Decrypt</Link>
                 </Button>
 
             </Box>
