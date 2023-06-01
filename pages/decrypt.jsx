@@ -1,11 +1,11 @@
-import PdfModify from "@/components/PdfModify";
 import Layout from "@/components/Layout";
+import DecryptForm from "@/components/DecryptForm";
 
-export default function Pdf() {
+export default function Decrypt() {
     return (
         <>
             <Layout>
-                <PdfModify />
+                <DecryptForm />
             </Layout>
         </>
     );

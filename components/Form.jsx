@@ -14,7 +14,7 @@ import serializeInvoice from "@/utils/serialize";
 import { encryption } from "@/utils/encrypt-invoice";
 import {  useState } from "react";
 import axios from "axios";
-import PdfModify from "./pdfModify";
+import PdfModify from "./PdfModify";
 import { FormSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -115,7 +115,7 @@ export default function Form() {
     return (
         <>
             <Flex gap='80px'>
-                <Box>
+                <Box my='5'>
                     <Heading size='lg'>Input Data Here : 👇🏼</Heading>
                     <form onSubmit={handleSubmit(submitData)}>
                         <FormControl>
