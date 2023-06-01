@@ -13,11 +13,11 @@ export default function serializeInvoice(data) {
 
     // parse Data to each field structure QR Code
     const SYSTEM_IDENTIFICATION = "VISION";
-    const SUPP_INV_NO = tax_invoice_no;
+    const SUPP_INV_NO = invoice_no;
     const AMOUNT_BEFORE_TAX = Number(amount_before_tax);
     const TOTAL_INVOICE_AMOUNT = Number(total_invoice_amount);
     const INV_TAX_AMOUNT = Number(tax_invoice_amount);
-    const INV_TAX_NO = Number(invoice_no);
+    const INV_TAX_NO = tax_invoice_no;
 
     const SYSTEM_ID = SYSTEM_IDENTIFICATION.toString()
 

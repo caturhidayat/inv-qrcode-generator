@@ -7,16 +7,14 @@ export default function Header() {
         <Box bg='gray.100'>
             <Box
                 display='flex'
-                py='10px'
-                width='auto'
-                alignItems='center'
+                py='5px'
                 alignContent='center'
                 justifyContent='center'
             >
                 <Text
                     bgGradient='linear(to-l, #7928CA, #FF0080)'
                     bgClip='text'
-                    fontSize='5xl'
+                    fontSize='4xl'
                     fontWeight='extrabold'
                 >
                     INVOICE QR-CODE GENERATOR

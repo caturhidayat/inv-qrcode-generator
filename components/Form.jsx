@@ -6,29 +6,38 @@ import {
     Heading,
     Box,
     FormControl,
-    NumberInput,
-    NumberInputField,
     Spacer,
     Flex,
-    Image
 } from "@chakra-ui/react";
-// import Image from "next/image";
 import { useForm } from "react-hook-form";
 import serializeInvoice from "@/utils/serialize";
 import { encryption } from "@/utils/encrypt-invoice";
-import { useState } from "react";
+import {  useState } from "react";
 import axios from "axios";
-import SVG from "react-inlinesvg";
 import PdfModify from "./pdfModify";
+import { FormSchema } from "@/utils/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Form() {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting, isSubmitted },
-    } = useForm();
-    // const { Image } = useQRCode();
-    const [input, setInput] = useState(null);
+        reset,
+        formState: { errors, isSubmitted },
+    } = useForm({
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+            invoice_no: "INV-01",
+            tax_invoice_no: "-",
+            amount_before_tax: 0,
+            tax_invoice_amount: 0,
+            luxury_tax_amount: 0,
+            pph_tax_amount: 0,
+            total_invoice_amount: 0,
+        },
+    });
+
+    // const [input, setInput] = useState(null);
     const [response, setResponse] = useState(null);
 
     // Handle On Submit
@@ -37,11 +46,6 @@ export default function Form() {
             method: "POST",
             body: data,
         });
-        // invoice.then((res) => {
-        //     res.data
-        // }).then((inv) => {
-        //     console.log(inv)
-        // })
         console.log(data);
     };
 
@@ -49,7 +53,7 @@ export default function Form() {
         const visionKey = "VISION0123456789";
         // const secretKey = visionKey.length * 8;
         const invoice = serializeInvoice(data);
-        // console.log(invoice);
+        console.log(invoice);
 
         const jsonForEncrypt = {
             encryption_text: invoice,
@@ -97,7 +101,7 @@ export default function Form() {
         const url = window.URL.createObjectURL(new Blob([response]));
         const urlObject = document.createElement("a");
         urlObject.href = url;
-        urlObject.setAttribute("download", 'file.png');
+        urlObject.setAttribute("download", "file.png");
         document.body.appendChild(urlObject);
         urlObject.click();
     };
@@ -119,17 +123,7 @@ export default function Form() {
                                 No Invoice
                             </FormLabel>
                             <Input
-                                {...register("invoice_no", {
-                                    required: "This is required",
-                                    minLength: {
-                                        value: 1,
-                                        message: "Minimum length is 1",
-                                    },
-                                    maxLength: {
-                                        value: 25,
-                                        message: "Maximum length is 25",
-                                    },
-                                })}
+                                {...register("invoice_no")}
                                 type='text'
                                 name='invoice_no'
                             />
@@ -143,13 +137,7 @@ export default function Form() {
                                 Tax Inv No
                             </FormLabel>
                             <Input
-                                {...register("tax_invoice_no", {
-                                    required: "This is required",
-                                    maxLength: {
-                                        value: 16,
-                                        message: "Maximum length is 16",
-                                    },
-                                })}
+                                {...register("tax_invoice_no")}
                                 type='text'
                                 name='tax_invoice_no'
                             />
@@ -162,19 +150,12 @@ export default function Form() {
                             <FormLabel htmlFor='amount_before_tax'>
                                 Amount Before Tax (GR)
                             </FormLabel>
-                            <NumberInput>
-                                <NumberInputField
-                                    {...register("amount_before_tax", {
-                                        required: "This is required",
-                                        maxLength: {
-                                            value: 16,
-                                            message: "Maximum length is 16",
-                                        },
-                                    })}
-                                    type='number'
-                                    name='amount_before_tax'
-                                />
-                            </NumberInput>
+                            <Input
+                                {...register("amount_before_tax", {
+                                    valueAsNumber: true,
+                                })}
+                                type='number'
+                            />
                             {errors.amount_before_tax && (
                                 <AlertInput
                                     message={errors.amount_before_tax.message}
@@ -184,19 +165,12 @@ export default function Form() {
                             <FormLabel htmlFor='tax_invoice_amount'>
                                 Tax Inv Amount
                             </FormLabel>
-                            <NumberInput>
-                                <NumberInputField
-                                    {...register("tax_invoice_amount", {
-                                        required: "This is required",
-                                        maxLength: {
-                                            value: 16,
-                                            message: "Maximum length is 16",
-                                        },
-                                    })}
-                                    type='number'
-                                    name='tax_invoice_amount'
-                                />
-                            </NumberInput>
+                            <Input
+                                {...register("tax_invoice_amount", {
+                                    valueAsNumber: true,
+                                })}
+                                type='number'
+                            />
                             {errors.tax_invoice_amount && (
                                 <AlertInput
                                     message={errors.tax_invoice_amount.message}
@@ -206,19 +180,12 @@ export default function Form() {
                             <FormLabel htmlFor='luxury_tax_amount'>
                                 Luxury Tax Amoount
                             </FormLabel>
-                            <NumberInput>
-                                <NumberInputField
-                                    {...register("luxury_tax_amount", {
-                                        required: "This is required",
-                                        maxLength: {
-                                            value: 16,
-                                            message: "Maximum length is 16",
-                                        },
-                                    })}
-                                    type='number'
-                                    name='luxury_tax_amount'
-                                />
-                            </NumberInput>
+                            <Input
+                                {...register("luxury_tax_amount", {
+                                    valueAsNumber: true,
+                                })}
+                                type='number'
+                            />
                             {errors.luxury_tax_amount && (
                                 <AlertInput
                                     message={errors.luxury_tax_amount.message}
@@ -228,19 +195,12 @@ export default function Form() {
                             <FormLabel htmlFor='pph_tax_amount'>
                                 PPh Tax Amount
                             </FormLabel>
-                            <NumberInput>
-                                <NumberInputField
-                                    {...register("pph_tax_amount", {
-                                        required: "This is required",
-                                        maxLength: {
-                                            value: 16,
-                                            message: "Maximum length is 16",
-                                        },
-                                    })}
-                                    type='number'
-                                    name='pph_tax_amount'
-                                />
-                            </NumberInput>
+                            <Input
+                                {...register("pph_tax_amount", {
+                                    valueAsNumber: true,
+                                })}
+                                type='number'
+                            />
                             {errors.pph_tax_amount && (
                                 <AlertInput
                                     message={errors.pph_tax_amount.message}
@@ -250,19 +210,12 @@ export default function Form() {
                             <FormLabel htmlFor='total_invoice_amount'>
                                 Total Inv Amount
                             </FormLabel>
-                            <NumberInput>
-                                <NumberInputField
-                                    {...register("total_invoice_amount", {
-                                        required: "This is required",
-                                        maxLength: {
-                                            value: 16,
-                                            message: "Maximum length is 16",
-                                        },
-                                    })}
-                                    type='number'
-                                    name='total_invoice_amount'
-                                />
-                            </NumberInput>
+                            <Input
+                                {...register("total_invoice_amount", {
+                                    valueAsNumber: true,
+                                })}
+                                type='number'
+                            />
                             {errors.total_invoice_amount && (
                                 <AlertInput
                                     message={
@@ -271,10 +224,24 @@ export default function Form() {
                                 />
                             )}
                             <Spacer />
-                            <Button type='submit' mt={4} colorScheme='orange'>
-                                Generate QR
-                            </Button>
+
                             <Spacer />
+                            {isSubmitted ? (
+                                <>
+                                    <Button
+                                        onClick={() => reset()}
+                                        type='submit'
+                                        mt={4}
+                                        colorScheme='red'
+                                    >
+                                        Reset Form
+                                    </Button>
+                                </>
+                            ) : (
+                                <Button type='submit' mt={4} colorScheme='teal'>
+                                    Generate QR
+                                </Button>
+                            )}
                         </FormControl>
                     </form>
                 </Box>
@@ -282,49 +249,11 @@ export default function Form() {
                     <Heading size='md' my='30'>
                         QR Code will appear here : 👇🏼
                     </Heading>
-                    {response ? (
+                    {isSubmitted ? (
                         <div>
-                            <Box
-                                as='div'
-                                border='dashed'
-                                borderColor='blackAlpha.500'
-                                borderRadius='10'
-                                width={280}
-                                height={280}
-                                justifyItems='center'
-                                justifyContent='center'
-                            >
-                                {/* <SVG src={response} /> */}
-                                <Image src={response} alt="qrcode" width='270' height='270' />
-                            </Box>
-                            {/* <FormLabel mt='5' htmlFor='select_file'>
-                                Download QR-CODE as SVG?? 🍺🍺
-                            </FormLabel> */}
-                            {/* <Button
-                                onClick={() => downloadQRCode()}
-                                my='2'
-                                colorScheme='facebook'
-                            >
-                                Download QR
-                            </Button> */}
-
-                            <FormLabel mt='5' htmlFor='select_file'>
-                                QR Code Generated 🔥
-                            </FormLabel>
-                            <br />
                             <PdfModify qrcode={response} />
                         </div>
-                    ) : // <div>
-                    //     <Box
-                    //         bas='div'
-                    //         border='dashed'
-                    //         borderColor='blackAlpha.500'
-                    //         borderRadius='10'
-                    //         width={280}
-                    //         height={280}
-                    //     ></Box>
-                    // </div>
-                    null}
+                    ) : null}
                 </Box>
             </Flex>
         </>

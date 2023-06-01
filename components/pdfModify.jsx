@@ -1,18 +1,11 @@
 import { Box, FormLabel, Input, Button, Text, Image } from "@chakra-ui/react";
-import * as yup from "yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-// import Image from "next/image";
 import AlertInput from "./AlertInput";
-import { PDFDocument, degrees, StandardFonts, rgb } from "pdf-lib";
-import SVGtoPDF from "svg-to-pdfkit";
+import { PDFDocument } from "pdf-lib";
+import { FileSchema } from "@/utils/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const schema = yup.object().shape({
-    files: yup.mixed().test("required", "PLease select a file", (value) => {
-        return value && value.length;
-    }),
-});
 export default function PdfModify({ qrcode }) {
     const {
         register,
@@ -21,9 +14,9 @@ export default function PdfModify({ qrcode }) {
         getValues,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(schema),
+        resolver: zodResolver(FileSchema),
     });
-    const [image, setImage] = useState("");
+    // const [image, setImage] = useState("");
     const [pdffile, setPdffile] = useState("");
 
     const readerPdfFile = (file, cb) => {
@@ -54,11 +47,9 @@ export default function PdfModify({ qrcode }) {
         const reader = new FileReader();
 
         reader.onload = async () => {
-            const svgPath =
-                "M 0,20 L 100,160 Q 130,200 150,120 C 190,-40 200,200 300,150 L 400,90";
             // console.log(reader.result)
             const arrayBuffer = reader.result;
-            console.log(arrayBuffer);
+            // console.log(arrayBuffer);
             const pngImageBytes = await fetch(qrcode).then((res) =>
                 res.arrayBuffer()
             );
@@ -99,15 +90,6 @@ export default function PdfModify({ qrcode }) {
                 height: 150,
             });
 
-            // firstPage.drawText("This text was added with JavaScript!", {
-            //     x: 5,
-            //     y: height / 2 + 300,
-            //     size: 50,
-            //     font: helvetica,
-            //     color: rgb(0.95, 0.1, 0.1),
-            //     rotate: degrees(-45),
-            // });
-
             // TODO: Serialize the PDFDoc to bytes (a Unit8Array)
             const pdfBytes = await pdfDoc.save();
 
@@ -129,14 +111,54 @@ export default function PdfModify({ qrcode }) {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-                {/* {console.log(pdffile)} */}
+                {qrcode ? (
+                    <div>
+                        <Box
+                            as='div'
+                            border='dashed'
+                            borderColor='blackAlpha.500'
+                            borderRadius='10'
+                            width={280}
+                            height={280}
+                            justifyItems='center'
+                            justifyContent='center'
+                        >
+                            <Image
+                                src={qrcode}
+                                alt='qrcode'
+                                width='270'
+                                height='270'
+                            />
+                        </Box>
+                        <FormLabel mt='5' htmlFor='select_file'>
+                            QR Code Generated 🔥
+                        </FormLabel>
+                        <br />
+                    </div>
+                ) : null}
+                {!watch("files") || watch("files").length === 0 ? (
+                    <div>
+                        <Input
+                            py='1'
+                            type='file'
+                            id='fileupload'
+                            {...register("files", {
+                                onChange: handleOnChangeInput,
+                                // onChange: (e)=> console.log(e.target.value)
+                            })}
+                        />
+                        {errors.files && (
+                            <AlertInput message={errors.files.message} />
+                        )}
+                        <FormLabel htmlFor='fileupload' cursor='pointer'>
+                            Please Select PDF File... 📄
+                        </FormLabel>
+                    </div>
+                ) : (
+                    <strong>{watch("files")[0].name}</strong>
+                )}
+                <br />
                 {pdffile ? (
-                    // <embed
-                    //     src={pdffile}
-                    //     alt='image'
-                    //     width='100'
-                    //     height='200'
-                    // />
                     <Box>
                         <Text>embedded QR to PDF already done!!! 🎉</Text>
                         <FormLabel mt='5' htmlFor='select_file'>
@@ -151,30 +173,6 @@ export default function PdfModify({ qrcode }) {
                         </Button>
                     </Box>
                 ) : null}
-                {!watch("files") || watch("files").length === 0 ? (
-                    <div>
-                        <Input
-                            py='1'
-                            type='file'
-                            id='fileupload'
-                            {...register("files", {
-                                onChange: handleOnChangeInput,
-                                // onChange: (e)=> console.log(e.target.value)
-                            })}
-                        />
-                        <FormLabel htmlFor='fileupload' cursor='pointer'>
-                            Please Select File... 📂
-                        </FormLabel>
-                    </div>
-                ) : (
-                    <strong>{watch("files")[0].name}</strong>
-                )}
-                {/* <Button variant='solid' colorScheme='messenger' type='submit'>
-                    Submit
-                </Button> */}
-                <br />
-
-                {errors.files && <AlertInput message={errors.files.message} />}
             </form>
         </div>
     );

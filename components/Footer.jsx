@@ -1,10 +1,10 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 
 export default function Footer() {
     return (
         <Box
-            bg='gray.300'
+            bg='gray.800'
             mt='80px'
             p='30px'
             // position='fixed'
@@ -13,9 +13,8 @@ export default function Footer() {
         >
             <Box
                 display='flex'
+                color='white'
                 pt='20px'
-                width='auto'
-                alignItems='center'
                 alignContent='center'
                 justifyContent='center'
             >

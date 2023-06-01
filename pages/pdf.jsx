@@ -5,12 +5,14 @@ import Footer from "@/components/Footer";
 
 export default function pdf() {
     return (
-        <div>
-            <Header />
-            <Container maxW='container.md' mt='50px'>
-                <PdfModify />
-            </Container>
-            <Footer />
-        </div>
+        <>
+            <main>
+                <Header />
+                <Container maxW='container.md' mt='50px'>
+                    <PdfModify />
+                </Container>
+                <Footer />
+            </main>
+        </>
     );
 }
