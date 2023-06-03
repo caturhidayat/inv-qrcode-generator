@@ -67,3 +67,14 @@ export const FileSchema = z.object({
             message: "Only PDF file format are supported",
         }),
 });
+
+// TODO: Validation decrypton key
+const key_size = 128
+export const decryptSchema = z.object({
+    secret_key: z
+        .any()
+        .refine((val) => val.length != key_size, {
+            message: `key Error ❌`
+        }) 
+
+})
