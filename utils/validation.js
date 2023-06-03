@@ -71,9 +71,12 @@ export const FileSchema = z.object({
 // TODO: Validation decrypton key
 const key_size = 128
 export const decryptSchema = z.object({
+    decryption_text: z.string({
+        required_error: 'decryption text is required'
+    }),
     secret_key: z
-        .any()
-        .refine((val) => val.length != key_size, {
+        .string()
+        .refine((val) => val.length * 8 === key_size, {
             message: `key Error ❌`
         }) 
 
