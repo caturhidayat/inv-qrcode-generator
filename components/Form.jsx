@@ -200,23 +200,19 @@ export default function Form() {
                 <AlertInput message={errors.total_invoice_amount.message} />
               )}
               <Spacer />
-
+              <Button type="submit" mt={4} colorScheme="teal">
+                Generate QR
+              </Button>
               <Spacer />
-              {isSubmitted ? (
+              {isSubmitted && (
                 <>
                   <Button
-                    onClick={() => reset()}
+                    onClick={() => reset()  }
                     type="submit"
                     mt={4}
                     colorScheme="red"
                   >
                     Reset Form
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button type="submit" mt={4} colorScheme="teal">
-                    Generate QR
                   </Button>
                 </>
               )}
