@@ -6,8 +6,8 @@ import { useColorMode, useColorModeValue} from '@chakra-ui/react'
 
 export default function Header() {
   const {colorMode, toggleColorMode} = useColorMode();
-  const bg = useColorModeValue('blue.800', 'blue.200')
-  const color = useColorModeValue('white', 'gray.800')
+  const bg = useColorModeValue('blue.400', 'blue.800')
+  const color = useColorModeValue('gray.800', 'gray.200')
 
   return (
     <Box bg={bg}>
@@ -29,17 +29,17 @@ export default function Header() {
         {/* <Heading textColor=''>INVC QR-CODE</Heading> */}
       </Box>
       <Box display="Flex" justifyContent="center">
-        <Button bg={bg} color={color}>
+        <Button bg={bg} color={color} _hover={{ bg:{bg}}}>
           <Link href="/">Home</Link>
         </Button>
         {/* <Button>
                     <Link href='/pdf'>PDF</Link>
                 </Button> */}
-        <Button bg={bg} color={color}>
+        <Button bg={bg} color={color} _hover={{ bg:{bg}}}>
           <Link href="/decrypt">Decrypt</Link>
         </Button>
-          <Button bg={bg} color={color} onClick={toggleColorMode}>
-            Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
+          <Button bg={bg} color={color} _hover={{ bg:{bg}}} onClick={toggleColorMode}>
+            {colorMode === 'light' ? '🌓 Dark' : '🌞 Light'} Mode
           </Button>
       </Box>
     </Box>

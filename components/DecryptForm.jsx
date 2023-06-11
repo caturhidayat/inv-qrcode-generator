@@ -47,16 +47,16 @@ export default function DecryptForm() {
   };
 
   return (
-    <Box my="5">
-      <Flex gap="10" justifyContent="center">
-        <Box width="450px">
+    <Box my="5" display={{ md: 'flex'}}>
+      {/* <Flex gap="10" justifyContent="center"> */}
+        <Box ml={{ sm: '20px'}}>
           <form onSubmit={handleSubmit(submitData)}>
             <FormControl>
               <FormLabel>Input Encryptd Text</FormLabel>
               <Textarea
                 {...register("decryption_text")}
                 size="md"
-                width="450px"
+                width={{ sm: '380px', md: '350px'}}
               />
               {errors.decryption_text && (
                 <AlertInput message={errors.decryption_text.message} />
@@ -65,7 +65,7 @@ export default function DecryptForm() {
                 Input text encrypted in here to decrypt 🔓
               </FormHelperText>
               <FormLabel my="5">Input Key :</FormLabel>
-              <Input {...register("secret_key")} />
+              <Input {...register("secret_key")} width={{ sm: '380px', md: '350px'}}/>
               {errors.secret_key && (
                 <AlertInput message={errors.secret_key.message} />
               )}
@@ -76,11 +76,11 @@ export default function DecryptForm() {
             </FormControl>
           </form>
         </Box>
-        <Box width="450px">
+        <Box ml={{ sm: '20px'}}>
           <FormLabel>Decrypted Text</FormLabel>
-          <Textarea value={decrypted} size="md" width="450px" />
+          <Textarea value={decrypted} size="md" width={{ sm: '380px', md: '350px'}} />
         </Box>
-      </Flex>
+      {/* </Flex> */}
     </Box>
   );
 }

@@ -118,14 +118,19 @@ export default function PdfModify({ qrcode }) {
               border="dashed"
               borderColor="blackAlpha.500"
               borderRadius="10"
-              width={280}
-              height={280}
+              width={{ sm: "200px", md: "280px" }}
+              height={{ sm: "200px", md: "280px" }}
               justifyItems="center"
               justifyContent="center"
             >
-              <Image src={qrcode} alt="qrcode" width="270" height="270" />
+              <Image
+                src={qrcode}
+                alt="qrcode"
+                width={{ sm: "200px", md: "280px" }}
+                height={{ sm: "200px", md: "280px" }}
+              />
             </Box>
-            <FormLabel mt="5" htmlFor="select_file">
+            <FormLabel mt="5" htmlFor="select_file" >
               QR Code Generated 🔥
             </FormLabel>
             <br />

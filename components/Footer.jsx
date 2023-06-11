@@ -32,11 +32,11 @@ export default function Footer() {
       </Box>
       <Box display="flex" justifyContent="center">
         <Text
-          fontSize="sm"
-          bgGradient="linear(to-l, #22c1c3, #fdbb2d)"
-          bgClip="text"
+          // fontSize="sm"
+          // bgGradient="linear(to-l, #22c1c3, #fdbb2d)"
+          // bgClip="text"
           // fontSize='6xl'
-          fontWeight="extrabold"
+          // fontWeight="extrabold"
         >
           Catur Hidayat - 2023
         </Text>
