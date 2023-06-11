@@ -1,12 +1,12 @@
 import {
-    Textarea,
-    Input,
-    Box,
-    Flex,
-    FormLabel,
-    Button,
-    FormHelperText,
-    FormControl,
+  Textarea,
+  Input,
+  Box,
+  Flex,
+  FormLabel,
+  Button,
+  FormHelperText,
+  FormControl,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { decryption } from "@/utils/encrypt-invoice";
@@ -16,76 +16,71 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AlertInput from "./AlertInput";
 
 export default function DecryptForm() {
-    const [decrypted, setDecrypted] = useState();
+  const [decrypted, setDecrypted] = useState();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: zodResolver(decryptSchema),
-        defaultValues: {
-            decryption_text: null,
-            secret_key: null
-        }
-    });
-    // Handle SUbmit Data
-    const submitData = (data) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(decryptSchema),
+    defaultValues: {
+      decryption_text: null,
+      secret_key: null,
+    },
+  });
+  // Handle SUbmit Data
+  const submitData = (data) => {
+    // if(!data.decryption_text && !data.secret_key) return errors
 
-        // if(!data.decryption_text && !data.secret_key) return errors
-
-        const jsonForDecrypt = {
-            decryption_text: data.decryption_text,
-            secret_key: data.secret_key,
-            secret_iv: "",
-            key_size: 128,
-            output_type: "Base64",
-            mode: "CBC",
-        };
-        const decryptionValue = decryption(jsonForDecrypt);
-        console.log(decryptionValue);
-        setDecrypted(decryptionValue);
+    const jsonForDecrypt = {
+      decryption_text: data.decryption_text,
+      secret_key: data.secret_key,
+      secret_iv: "",
+      key_size: 128,
+      output_type: "Base64",
+      mode: "CBC",
     };
+    const decryptionValue = decryption(jsonForDecrypt);
+    console.log(decryptionValue);
+    setDecrypted(decryptionValue);
+  };
 
-    return (
-        <Box my='5'>
-            <Flex gap='10' justifyContent='center'>
-                <Box width='450px'>
-                    <form onSubmit={handleSubmit(submitData)}>
-                        <FormControl>
-                            <FormLabel>Input Encryptd Text</FormLabel>
-                            <Textarea
-                                {...register("decryption_text")}
-                                size='md'
-                                width='450px'
-                            />
-                            {errors.decryption_text && (
-                                <AlertInput
-                                    message={errors.decryption_text.message}
-                                />
-                            )}
-                            <FormHelperText>
-                                Input text encrypted in here to decrypt 🔓
-                            </FormHelperText>
-                            <FormLabel my='5'>Input Key :</FormLabel>
-                            <Input {...register("secret_key")} />
-                            {errors.secret_key && (
-                                <AlertInput
-                                    message={errors.secret_key.message}
-                                />
-                            )}
-                            <br />
-                            <Button type='submit' my='4' colorScheme='orange'>
-                                Decrypt
-                            </Button>
-                        </FormControl>
-                    </form>
-                </Box>
-                <Box width='450px'>
-                    <FormLabel>Decrypted Text</FormLabel>
-                    <Textarea value={decrypted} size='md' width='450px' />
-                </Box>
-            </Flex>
+  return (
+    <Box my="5">
+      <Flex gap="10" justifyContent="center">
+        <Box width="450px">
+          <form onSubmit={handleSubmit(submitData)}>
+            <FormControl>
+              <FormLabel>Input Encryptd Text</FormLabel>
+              <Textarea
+                {...register("decryption_text")}
+                size="md"
+                width="450px"
+              />
+              {errors.decryption_text && (
+                <AlertInput message={errors.decryption_text.message} />
+              )}
+              <FormHelperText>
+                Input text encrypted in here to decrypt 🔓
+              </FormHelperText>
+              <FormLabel my="5">Input Key :</FormLabel>
+              <Input {...register("secret_key")} />
+              {errors.secret_key && (
+                <AlertInput message={errors.secret_key.message} />
+              )}
+              <br />
+              <Button type="submit" my="4" colorScheme="orange">
+                Decrypt
+              </Button>
+            </FormControl>
+          </form>
         </Box>
-    );
+        <Box width="450px">
+          <FormLabel>Decrypted Text</FormLabel>
+          <Textarea value={decrypted} size="md" width="450px" />
+        </Box>
+      </Flex>
+    </Box>
+  );
 }
