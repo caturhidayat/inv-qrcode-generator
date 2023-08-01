@@ -17,6 +17,8 @@ import axios from "axios";
 import PdfModify from "./pdfModify";
 import { FormSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import 'dotenv/config'
+require('dotenv').config()
 
 export default function Form() {
   const {
@@ -50,8 +52,8 @@ export default function Form() {
   };
 
   const submitData = async (data) => {
-    // const visionKey = "VISION0123456789";
-    const visionKey = "VISION4000007525";
+    // const visionKey = process.env.VISION_KEY;
+    const visionKey = 'VISION4000007525';
     // const secretKey = visionKey.length * 8;
     const invoice = serializeInvoice(data);
     console.log(invoice);
