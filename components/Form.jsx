@@ -53,7 +53,7 @@ export default function Form() {
 
   const submitData = async (data) => {
     // const visionKey = process.env.VISION_KEY;
-    const visionKey = 'VISION4000007525';
+    const visionKey = "VISION4000007525";
     // const secretKey = visionKey.length * 8;
     const invoice = serializeInvoice(data);
     console.log(invoice);
