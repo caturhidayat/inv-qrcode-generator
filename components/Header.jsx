@@ -20,7 +20,7 @@ export default function Header() {
         <Text
           bgGradient="linear(to-l, #fb843f, #e546fc)"
           bgClip="text"
-          fontSize="5xl"
+          fontSize="3xl"
           fontWeight="extrabold"
         >
           INVOICE QR-CODE GENERATOR
