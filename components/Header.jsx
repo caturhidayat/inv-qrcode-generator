@@ -6,7 +6,7 @@ import { useColorMode, useColorModeValue} from '@chakra-ui/react'
 
 export default function Header() {
   const {colorMode, toggleColorMode} = useColorMode();
-  const bg = useColorModeValue('blue.400', 'blue.800')
+  const bg = useColorModeValue('teal.300', 'blue.800')
   const color = useColorModeValue('gray.800', 'gray.200')
 
   return (
@@ -18,9 +18,9 @@ export default function Header() {
         justifyContent="center"
       >
         <Text
-          bgGradient="linear(to-l, #7928CA, #FF0080)"
+          bgGradient="linear(to-l, #fb843f, #e546fc)"
           bgClip="text"
-          fontSize="4xl"
+          fontSize="5xl"
           fontWeight="extrabold"
         >
           INVOICE QR-CODE GENERATOR

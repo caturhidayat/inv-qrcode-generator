@@ -65,12 +65,12 @@ export default function DecryptForm() {
                 Input text encrypted in here to decrypt 🔓
               </FormHelperText>
               <FormLabel my="5">Input Key :</FormLabel>
-              <Input {...register("secret_key")} width={{ sm: '380px', md: '350px'}}/>
+              <Input size={"sm"} {...register("secret_key")} width={{ sm: '380px', md: '350px'}}/>
               {errors.secret_key && (
                 <AlertInput message={errors.secret_key.message} />
               )}
               <br />
-              <Button type="submit" my="4" colorScheme="orange">
+              <Button size={"sm"} type="submit" my="4" colorScheme="orange">
                 Decrypt
               </Button>
             </FormControl>

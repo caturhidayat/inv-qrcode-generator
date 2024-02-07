@@ -7,7 +7,7 @@ export default function Layout({ children }) {
     <>
       <Header />
       <Container maxW="container.md">{children}</Container>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
