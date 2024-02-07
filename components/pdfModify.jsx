@@ -158,11 +158,11 @@ export default function PdfModify({ qrcode }) {
         <br />
         {pdffile ? (
           <Box>
-            <Text>embedded QR to PDF already done!!! 🎉</Text>
+            <Text>embedded QR to PDF already done! 🎉</Text>
             <FormLabel mt="5" htmlFor="select_file">
-              Download PDF with QR?? 🍔🍔🍔
+              Download PDF with QR?? 📥
             </FormLabel>
-            <Button onClick={downloadPDF} mt="2" colorScheme="facebook">
+            <Button size={"sm"} onClick={downloadPDF} mt="2" colorScheme="teal">
               Download PDF
             </Button>
           </Box>

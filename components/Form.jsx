@@ -116,7 +116,7 @@ export default function Form() {
     <>
       <Flex gap="80px">
         <Box my="5">
-          <Heading size="lg">Input Data Here : 👇🏼</Heading>
+          <Heading size="lg" pb={"4"}>Input Data Here : 👇🏼</Heading>
           <form onSubmit={handleSubmit(submitData)}>
             <FormControl>
               <FormLabel htmlFor="invoice_no">No Invoice</FormLabel>
@@ -124,6 +124,7 @@ export default function Form() {
                 {...register("invoice_no")}
                 type="text"
                 name="invoice_no"
+                size={"sm"}
               />
               {errors.invoice_no && (
                 <AlertInput message={errors.invoice_no.message} />
@@ -134,6 +135,7 @@ export default function Form() {
                 {...register("tax_invoice_no")}
                 type="text"
                 name="tax_invoice_no"
+                size={"sm"}
               />
               {errors.tax_invoice_no && (
                 <AlertInput message={errors.tax_invoice_no.message} />
@@ -147,6 +149,7 @@ export default function Form() {
                   valueAsNumber: true,
                 })}
                 type="number"
+                size={"sm"}
               />
               {errors.amount_before_tax && (
                 <AlertInput message={errors.amount_before_tax.message} />
@@ -158,6 +161,7 @@ export default function Form() {
                   valueAsNumber: true,
                 })}
                 type="number"
+                size={"sm"}
               />
               {errors.tax_invoice_amount && (
                 <AlertInput message={errors.tax_invoice_amount.message} />
@@ -171,6 +175,7 @@ export default function Form() {
                   valueAsNumber: true,
                 })}
                 type="number"
+                size={"sm"}
               />
               {errors.luxury_tax_amount && (
                 <AlertInput message={errors.luxury_tax_amount.message} />
@@ -182,6 +187,7 @@ export default function Form() {
                   valueAsNumber: true,
                 })}
                 type="number"
+                size={"sm"}
               />
               {errors.pph_tax_amount && (
                 <AlertInput message={errors.pph_tax_amount.message} />
@@ -195,12 +201,13 @@ export default function Form() {
                   valueAsNumber: true,
                 })}
                 type="number"
+                size={"sm"}
               />
               {errors.total_invoice_amount && (
                 <AlertInput message={errors.total_invoice_amount.message} />
               )}
               <Spacer />
-              <Button type="submit" mt={4} colorScheme="teal">
+              <Button size={"sm"} type="submit" mt={4} colorScheme="teal">
                 Generate QR
               </Button>
               <Spacer />
@@ -210,7 +217,8 @@ export default function Form() {
                     onClick={() => reset()  }
                     type="submit"
                     mt={4}
-                    colorScheme="red"
+                    colorScheme="orange"
+                    size={"sm"}
                   >
                     Reset Form
                   </Button>
