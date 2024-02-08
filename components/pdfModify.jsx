@@ -19,12 +19,12 @@ export default function PdfModify({ qrcode }) {
   // const [image, setImage] = useState("");
   const [pdffile, setPdffile] = useState("");
 
-  const readerPdfFile = (file, cb) => {
-    const read = new FileReader();
-    read.onload = () => cb(null, read.result);
-    read.onload = (err) => cb(err);
-    read.readAsArrayBuffer(file);
-  };
+  // const readerPdfFile = (file, cb) => {
+  //   const read = new FileReader();
+  //   read.onload = () => cb(null, read.result);
+  //   read.onload = (err) => cb(err);
+  //   read.readAsArrayBuffer(file);
+  // };
 
   const onSubmit = (data) => {
     if (data.files.length > 0) {

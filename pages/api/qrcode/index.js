@@ -19,11 +19,4 @@ export default function handler(req, res) {
   } else {
     res.status(400);
   }
-
-  // .then((url) => {
-  //     return url;
-  // })
-  // .catch((err) => {
-  //     console.log(err);
-  // });
 }

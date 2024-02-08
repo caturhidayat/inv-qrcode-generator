@@ -17,6 +17,8 @@ import axios from "axios";
 import PdfModify from "./pdfModify";
 import { FormSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { VISION_KEY } from "@/constant";
+
 
 export default function Form() {
   const {
@@ -40,17 +42,9 @@ export default function Form() {
   // const [input, setInput] = useState(null);
   const [response, setResponse] = useState(null);
 
-  // Handle On Submit
-  const handleOnSubmit = (data) => {
-    const invoice = fetch("/api/invoice", {
-      method: "POST",
-      body: data,
-    });
-    console.log(data);
-  };
-
   const submitData = async (data) => {
-    const visionKey = "VISION0123456789";
+    const visionKey = VISION_KEY;
+    // console.log({visionKey});
     // const secretKey = visionKey.length * 8;
     const invoice = serializeInvoice(data);
     console.log(invoice);
@@ -68,19 +62,6 @@ export default function Form() {
 
     console.log(encryptionValues);
 
-    // TODO: Generate QR Code with API
-    // try {
-    //     // setInput(encryptionValues)
-    //     const res = await axios.get("/api/qrcodepro", {
-    //         params: { encryptionValues },
-    //     });
-    //     // const res = generateQRCode(encryptionValues)
-    //     console.log(res.data);
-    //     setResponse(res.data);
-    // } catch (error) {
-    //     console.log(error);
-    // }
-
     // TODO: Generate QR Code with module
     try {
       const res = await axios.get("/api/qrcode", {
@@ -94,22 +75,6 @@ export default function Form() {
     }
 
     // console.log({qr: qr.data})
-  };
-
-  // TODO: Standard snippet to download the QR Code
-  const downloadQRCode = () => {
-    const url = window.URL.createObjectURL(new Blob([response]));
-    const urlObject = document.createElement("a");
-    urlObject.href = url;
-    urlObject.setAttribute("download", "file.png");
-    document.body.appendChild(urlObject);
-    urlObject.click();
-  };
-
-  // TODO: Download SVG as PNG
-  const embedSvg2Pdf = () => {
-    const pdfFile = document.getElementById("select_file");
-    console.log(pdfFile);
   };
 
   return (

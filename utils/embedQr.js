@@ -22,9 +22,6 @@ export async function embedQr(file, qrcode) {
       // TODO: Embed PNG image bytes
       const pngImage = await pdfDoc.embedPng(pngImageBytes);
 
-      // const helvetica = await pdfDoc.embedStandardFont(
-      //     StandardFonts.Helvetica
-      // );
       // TODO: Get First Page of the doc
       const pages = pdfDoc.getPages();
       const firstPage = pages[0];

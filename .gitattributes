@@ -1,0 +1,4 @@
+*.js linguist-language=JavaScript
+*.jsx linguist-language=React
+next.config.js linguist-language=NextJS
+*.css linguist-language=CSS
