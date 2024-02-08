@@ -41,45 +41,57 @@ export default function DecryptForm() {
       output_type: "Base64",
       mode: "CBC",
     };
-    const decryptionValue = decryption(jsonForDecrypt);
-    console.log(decryptionValue);
-    setDecrypted(decryptionValue);
+    try {
+      const decryptionValue = decryption(jsonForDecrypt);
+      console.log(decryptionValue);
+      setDecrypted(decryptionValue);
+    } catch (error) {
+      setDecrypted(error.message);
+    }
   };
 
   return (
-    <Box my="5" display={{ md: 'flex'}}>
+    <Box my="5" display={{ md: "flex" }}>
       {/* <Flex gap="10" justifyContent="center"> */}
-        <Box ml={{ sm: '20px'}}>
-          <form onSubmit={handleSubmit(submitData)}>
-            <FormControl>
-              <FormLabel>Input Encryptd Text</FormLabel>
-              <Textarea
-                {...register("decryption_text")}
-                size="md"
-                width={{ sm: '380px', md: '350px'}}
-              />
-              {errors.decryption_text && (
-                <AlertInput message={errors.decryption_text.message} />
-              )}
-              <FormHelperText>
-                Input text encrypted in here to decrypt 🔓
-              </FormHelperText>
-              <FormLabel my="5">Input Key :</FormLabel>
-              <Input size={"sm"} {...register("secret_key")} width={{ sm: '380px', md: '350px'}}/>
-              {errors.secret_key && (
-                <AlertInput message={errors.secret_key.message} />
-              )}
-              <br />
-              <Button size={"sm"} type="submit" my="4" colorScheme="orange">
-                Decrypt
-              </Button>
-            </FormControl>
-          </form>
-        </Box>
-        <Box ml={{ sm: '20px'}}>
-          <FormLabel>Decrypted Text</FormLabel>
-          <Textarea value={decrypted} size="md" width={{ sm: '380px', md: '350px'}} />
-        </Box>
+      <Box ml={{ sm: "20px" }}>
+        <form onSubmit={handleSubmit(submitData)}>
+          <FormControl>
+            <FormLabel>Input Encryptd Text</FormLabel>
+            <Textarea
+              {...register("decryption_text")}
+              size="md"
+              width={{ sm: "380px", md: "350px" }}
+            />
+            {errors.decryption_text && (
+              <AlertInput message={errors.decryption_text.message} />
+            )}
+            <FormHelperText>
+              Input text encrypted in here to decrypt 🔓
+            </FormHelperText>
+            <FormLabel my="5">Input Key :</FormLabel>
+            <Input
+              size={"sm"}
+              {...register("secret_key")}
+              width={{ sm: "380px", md: "350px" }}
+            />
+            {errors.secret_key && (
+              <AlertInput message={errors.secret_key.message} />
+            )}
+            <br />
+            <Button size={"sm"} type="submit" my="4" colorScheme="orange">
+              Decrypt
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
+      <Box ml={{ sm: "20px" }}>
+        <FormLabel>Decrypted Text</FormLabel>
+        <Textarea
+          value={decrypted}
+          size="md"
+          width={{ sm: "380px", md: "350px" }}
+        />
+      </Box>
       {/* </Flex> */}
     </Box>
   );
