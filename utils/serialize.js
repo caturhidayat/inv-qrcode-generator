@@ -6,7 +6,7 @@ export default function serializeInvoice(data) {
     tax_invoice_no,
     amount_before_tax,
     tax_invoice_amount,
-    luxury_tax_amount,
+    // luxury_tax_amount,
     pph_tax_amount,
     total_invoice_amount,
   } = data;
