@@ -19,9 +19,9 @@ export const FormSchema = z.object({
   // luxury_tax_amount: z.number().nonnegative().lte(9999999999999999, {
   //   message: "Number can't be more than 16 digits",
   // }),
-  pph_tax_amount: z.number().nonnegative().lte(9999999999999999, {
-    message: "Number can't be more than 16 digits",
-  }),
+  // pph_tax_amount: z.number().nonnegative().lte(9999999999999999, {
+  //   message: "Number can't be more than 16 digits",
+  // }),
   total_invoice_amount: z.number().nonnegative().lte(9999999999999999, {
     message: "Number can't be more than 16 digits",
   }),

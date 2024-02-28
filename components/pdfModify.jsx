@@ -86,8 +86,8 @@ export default function PdfModify({ qrcode }) {
       firstPage.drawImage(pngImage, {
         x: width / 14 - 10,
         y: height / 4 + 30,
-        width: 150,
-        height: 150,
+        width: 130,
+        height: 130,
       });
 
       // TODO: Serialize the PDFDoc to bytes (a Unit8Array)
@@ -118,19 +118,19 @@ export default function PdfModify({ qrcode }) {
               border="dashed"
               borderColor="blackAlpha.500"
               borderRadius="10"
-              width={{ sm: "200px", md: "280px" }}
-              height={{ sm: "200px", md: "280px" }}
+              width={{ sm: "182px", md: "252px" }}
+              height={{ sm: "182px", md: "256px" }}
               justifyItems="center"
               justifyContent="center"
             >
               <Image
                 src={qrcode}
                 alt="qrcode"
-                width={{ sm: "200px", md: "280px" }}
-                height={{ sm: "200px", md: "280px" }}
+                width={{ sm: "180px", md: "250px" }}
+                height={{ sm: "180px", md: "250px" }}
               />
             </Box>
-            <FormLabel mt="5" htmlFor="select_file" >
+            <FormLabel mt="5" htmlFor="select_file">
               QR Code Generated 🔥
             </FormLabel>
             <br />
