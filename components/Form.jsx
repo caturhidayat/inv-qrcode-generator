@@ -33,7 +33,7 @@ export default function Form() {
       amount_before_tax: 0,
       tax_invoice_amount: 0,
       // luxury_tax_amount: 0,
-      pph_tax_amount: 0,
+      // pph_tax_amount: 0,
       total_invoice_amount: 0,
     },
   });
@@ -45,6 +45,7 @@ export default function Form() {
     const visionKey = VISION_KEY;
     // console.log({visionKey});
     // const secretKey = visionKey.length * 8;
+    // console.log({data});
     const invoice = serializeInvoice(data);
     console.log(invoice);
 
@@ -67,7 +68,7 @@ export default function Form() {
         params: { encryptionValues },
       });
       // const res = generateQRCode(encryptionValues)
-      // console.log(res.data);
+      console.log(res.data);
       setResponse(res.data);
     } catch (error) {
       console.log(error);
@@ -85,7 +86,7 @@ export default function Form() {
           </Heading>
           <form onSubmit={handleSubmit(submitData)}>
             <FormControl>
-              <FormLabel htmlFor="invoice_no">No Invoice</FormLabel>
+              <FormLabel htmlFor="invoice_no">No. Invoice</FormLabel>
               <Input
                 {...register("invoice_no")}
                 type="text"
@@ -110,7 +111,7 @@ export default function Form() {
                 <AlertInput message={errors.amount_before_tax.message} />
               )}
 
-              <FormLabel htmlFor="tax_invoice_amount">Tax Inv Amount</FormLabel>
+              <FormLabel htmlFor="tax_invoice_amount">Tax Amount (PPN)</FormLabel>
               <Input
                 {...register("tax_invoice_amount", {
                   valueAsNumber: true,
@@ -136,7 +137,7 @@ export default function Form() {
                 <AlertInput message={errors.luxury_tax_amount.message} />
               )} */}
 
-              <FormLabel htmlFor="pph_tax_amount">PPN Amount</FormLabel>
+              {/* <FormLabel htmlFor="pph_tax_amount">PPN Amount</FormLabel>
               <Input
                 {...register("pph_tax_amount", {
                   valueAsNumber: true,
@@ -146,10 +147,10 @@ export default function Form() {
               />
               {errors.pph_tax_amount && (
                 <AlertInput message={errors.pph_tax_amount.message} />
-              )}
+              )} */}
 
               <FormLabel htmlFor="total_invoice_amount">
-                Total Inv Amount
+                Total Invoive Amount
               </FormLabel>
               <Input
                 {...register("total_invoice_amount", {
@@ -161,8 +162,10 @@ export default function Form() {
               {errors.total_invoice_amount && (
                 <AlertInput message={errors.total_invoice_amount.message} />
               )}
-
-              <FormLabel htmlFor="tax_invoice_no">Tax Inv No</FormLabel>
+              
+              <FormLabel pt={6} htmlFor="tax_invoice_no">
+                Tax Invoice No
+              </FormLabel>
               <Input
                 {...register("tax_invoice_no")}
                 type="text"
