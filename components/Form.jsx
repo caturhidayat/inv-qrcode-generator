@@ -19,7 +19,6 @@ import { FormSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VISION_KEY } from "@/constant";
 
-
 export default function Form() {
   const {
     register,
@@ -33,7 +32,7 @@ export default function Form() {
       tax_invoice_no: "-",
       amount_before_tax: 0,
       tax_invoice_amount: 0,
-      luxury_tax_amount: 0,
+      // luxury_tax_amount: 0,
       pph_tax_amount: 0,
       total_invoice_amount: 0,
     },
@@ -81,7 +80,9 @@ export default function Form() {
     <>
       <Flex gap="80px">
         <Box my="5">
-          <Heading size="lg" pb={"4"}>Input Data Here : 👇🏼</Heading>
+          <Heading size="lg" pb={"4"}>
+            Input Data Here : 👇🏼
+          </Heading>
           <form onSubmit={handleSubmit(submitData)}>
             <FormControl>
               <FormLabel htmlFor="invoice_no">No Invoice</FormLabel>
@@ -95,19 +96,8 @@ export default function Form() {
                 <AlertInput message={errors.invoice_no.message} />
               )}
 
-              <FormLabel htmlFor="tax_invoice_no">Tax Inv No</FormLabel>
-              <Input
-                {...register("tax_invoice_no")}
-                type="text"
-                name="tax_invoice_no"
-                size={"sm"}
-              />
-              {errors.tax_invoice_no && (
-                <AlertInput message={errors.tax_invoice_no.message} />
-              )}
-
               <FormLabel htmlFor="amount_before_tax">
-                Amount Before Tax (GR)
+                Amount Before Tax (Sub Total)
               </FormLabel>
               <Input
                 {...register("amount_before_tax", {
@@ -132,7 +122,7 @@ export default function Form() {
                 <AlertInput message={errors.tax_invoice_amount.message} />
               )}
 
-              <FormLabel htmlFor="luxury_tax_amount">
+              {/* <FormLabel htmlFor="luxury_tax_amount">
                 Luxury Tax Amoount
               </FormLabel>
               <Input
@@ -144,9 +134,9 @@ export default function Form() {
               />
               {errors.luxury_tax_amount && (
                 <AlertInput message={errors.luxury_tax_amount.message} />
-              )}
+              )} */}
 
-              <FormLabel htmlFor="pph_tax_amount">PPh Tax Amount</FormLabel>
+              <FormLabel htmlFor="pph_tax_amount">PPN Amount</FormLabel>
               <Input
                 {...register("pph_tax_amount", {
                   valueAsNumber: true,
@@ -171,6 +161,18 @@ export default function Form() {
               {errors.total_invoice_amount && (
                 <AlertInput message={errors.total_invoice_amount.message} />
               )}
+
+              <FormLabel htmlFor="tax_invoice_no">Tax Inv No</FormLabel>
+              <Input
+                {...register("tax_invoice_no")}
+                type="text"
+                name="tax_invoice_no"
+                size={"sm"}
+              />
+              {errors.tax_invoice_no && (
+                <AlertInput message={errors.tax_invoice_no.message} />
+              )}
+
               <Spacer />
               <Button size={"sm"} type="submit" mt={4} colorScheme="teal">
                 Generate QR
@@ -179,7 +181,7 @@ export default function Form() {
               {isSubmitted && (
                 <>
                   <Button
-                    onClick={() => reset()  }
+                    onClick={() => reset()}
                     type="submit"
                     mt={4}
                     colorScheme="orange"
