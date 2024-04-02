@@ -1,4 +1,4 @@
-import { Box, FormLabel, Input, Button, Text, Image } from "@chakra-ui/react";
+import { Box, FormLabel, Input, Button, Text, Image, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import AlertInput from "./AlertInput";
@@ -109,32 +109,22 @@ export default function PdfModify({ qrcode }) {
   };
 
   return (
-    <div>
+    <Box justifyContent="center" alignContent={"center"}>
       <form onSubmit={handleSubmit(onSubmit)}>
         {qrcode ? (
-          <div>
-            <Box
-              as="div"
-              border="dashed"
-              borderColor="blackAlpha.500"
-              borderRadius="10"
-              width={{ sm: "182px", md: "252px" }}
-              height={{ sm: "182px", md: "256px" }}
-              justifyItems="center"
-              justifyContent="center"
-            >
+          <Flex flexDir={"column"} m={"auto"} justifyContent={"center"}>
               <Image
                 src={qrcode}
                 alt="qrcode"
-                width={{ sm: "180px", md: "250px" }}
-                height={{ sm: "180px", md: "250px" }}
+                width={{ xs: "180px", md: "250px" }}
+                height={{ xs: "180px", md: "250px" }}
               />
-            </Box>
-            <FormLabel mt="5" htmlFor="select_file">
+            
+            <FormLabel textAlign={"center"} fontSize={"xl"} htmlFor="select_file">
               QR Code Generated 🔥
             </FormLabel>
             <br />
-          </div>
+          </Flex>
         ) : null}
         {!watch("files") || watch("files").length === 0 ? (
           <div>
@@ -168,6 +158,6 @@ export default function PdfModify({ qrcode }) {
           </Box>
         ) : null}
       </form>
-    </div>
+    </Box>
   );
 }
