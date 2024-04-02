@@ -5,7 +5,7 @@ import { useColorMode, useColorModeValue } from "@chakra-ui/react";
 
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const bg = useColorModeValue("teal.300", "blue.800");
+  const bg = useColorModeValue("teal.400", "blue.800");
   const color = useColorModeValue("gray.800", "gray.200");
   const textGradient = useColorModeValue(
     "linear(to-l, #7928CA, #FF0080)",
@@ -23,8 +23,13 @@ export default function Header() {
         <Text
           bgGradient={textGradient}
           bgClip="text"
-          fontSize="3xl"
+          fontSize={{
+            base: "lg",
+            sm: "2xl",
+            md: "3xl",
+          }}
           fontWeight="extrabold"
+          textAlign={"center"}
         >
           INVOICE QR-CODE GENERATOR
         </Text>

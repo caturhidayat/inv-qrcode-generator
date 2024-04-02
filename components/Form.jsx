@@ -43,9 +43,6 @@ export default function Form() {
 
   const submitData = async (data) => {
     const visionKey = VISION_KEY;
-    // console.log({visionKey});
-    // const secretKey = visionKey.length * 8;
-    // console.log({data});
     const invoice = serializeInvoice(data);
     console.log(invoice);
 
@@ -73,15 +70,29 @@ export default function Form() {
     } catch (error) {
       console.log(error);
     }
-
-    // console.log({qr: qr.data})
   };
 
   return (
     <>
-      <Flex gap="80px">
-        <Box my="5">
-          <Heading size="lg" pb={"4"}>
+      <Flex
+        flexDir={{
+          base: "column",
+          md: "row",
+        }}
+        justifyContent="center"
+        // align="center"
+        gap={{
+          base: "1",
+          md: "10",
+        }}
+      >
+        <Box
+          my={{
+            base: "4",
+            md: "10",
+          }}
+        >
+          <Heading size="md" pb={"4"}>
             Input Data Here : 👇🏼
           </Heading>
           <form onSubmit={handleSubmit(submitData)}>
@@ -111,7 +122,9 @@ export default function Form() {
                 <AlertInput message={errors.amount_before_tax.message} />
               )}
 
-              <FormLabel htmlFor="tax_invoice_amount">Tax Amount (PPN)</FormLabel>
+              <FormLabel htmlFor="tax_invoice_amount">
+                Tax Amount (PPN)
+              </FormLabel>
               <Input
                 {...register("tax_invoice_amount", {
                   valueAsNumber: true,
@@ -162,7 +175,7 @@ export default function Form() {
               {errors.total_invoice_amount && (
                 <AlertInput message={errors.total_invoice_amount.message} />
               )}
-              
+
               <FormLabel pt={6} htmlFor="tax_invoice_no">
                 Tax Invoice No
               </FormLabel>
@@ -176,35 +189,48 @@ export default function Form() {
                 <AlertInput message={errors.tax_invoice_no.message} />
               )}
 
-              <Spacer />
-              <Button size={"sm"} type="submit" mt={4} colorScheme="teal">
-                Generate QR
-              </Button>
-              <Spacer />
-              {isSubmitted && (
-                <>
-                  <Button
-                    onClick={() => reset()}
-                    type="submit"
-                    mt={4}
-                    colorScheme="orange"
-                    size={"sm"}
-                  >
-                    Reset Form
-                  </Button>
-                </>
-              )}
+              <Flex
+                flexDir={{
+                  base: "column",
+                  md: "row",
+                }}
+              >
+                <Button size={"sm"} type="submit" mt={4} colorScheme="teal">
+                  Generate QR
+                </Button>
+                <Spacer />
+                {isSubmitted && (
+                  <>
+                    <Button
+                      onClick={() => reset()}
+                      type="submit"
+                      mt={4}
+                      colorScheme="orange"
+                      size={"sm"}
+                    >
+                      Reset Form
+                    </Button>
+                  </>
+                )}
+              </Flex>
             </FormControl>
           </form>
         </Box>
-        <Box>
-          <Heading size="md" my="30">
+        <Box mx={"auto"}>
+          {!isSubmitted ? (
+            <Box>
+              <Heading size="md" my="4">
+                QR Code will appear here : 👇🏼
+              </Heading>
+            </Box>
+          ) : null}
+          {/* <Heading size="md" my="30" >
             QR Code will appear here : 👇🏼
-          </Heading>
+          </Heading> */}
           {isSubmitted ? (
-            <div>
+            <Flex m={"auto"} justifyContent={"center"}>
               <PdfModify qrcode={response} />
-            </div>
+            </Flex>
           ) : null}
         </Box>
       </Flex>
