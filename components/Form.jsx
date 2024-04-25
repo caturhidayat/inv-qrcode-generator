@@ -24,17 +24,19 @@ export default function Form() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitted },
+    setValue,
+    getValues,
+    formState: { errors, isSubmitted, isSubmitSuccessful },
   } = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      invoice_no: "INV-01",
-      tax_invoice_no: "-",
-      amount_before_tax: 0,
-      tax_invoice_amount: 0,
+      invoice_no: "",
+      tax_invoice_no: "",
+      amount_before_tax: "",
+      tax_invoice_amount: "",
       // luxury_tax_amount: 0,
       // pph_tax_amount: 0,
-      total_invoice_amount: 0,
+      total_invoice_amount: "",
     },
   });
 
@@ -100,6 +102,7 @@ export default function Form() {
               <FormLabel htmlFor="invoice_no">No. Invoice</FormLabel>
               <Input
                 {...register("invoice_no")}
+                placeholder="INV-01"
                 type="text"
                 name="invoice_no"
                 size={"sm"}
@@ -114,7 +117,15 @@ export default function Form() {
               <Input
                 {...register("amount_before_tax", {
                   valueAsNumber: true,
+                  onChange: (e) => {
+                    const [tax_invoice_amount] = getValues(['tax_invoice_amount'])
+                    const total_amount = (parseFloat(e.target.value) + parseFloat(tax_invoice_amount))
+                    if(!isNaN(total_amount)){
+                      setValue('total_invoice_amount', total_amount)
+                    }
+                  }
                 })}
+                placeholder="100000"
                 type="number"
                 size={"sm"}
               />
@@ -128,7 +139,15 @@ export default function Form() {
               <Input
                 {...register("tax_invoice_amount", {
                   valueAsNumber: true,
+                  onChange: (e) => {
+                    const [amount_before_tax] = getValues(['amount_before_tax'])
+                    const total_amount = (parseFloat(e.target.value) + parseFloat(amount_before_tax))
+                    if(!isNaN(total_amount)){
+                      setValue('total_invoice_amount', total_amount)
+                    }
+                  }
                 })}
+                placeholder="11000"
                 type="number"
                 size={"sm"}
               />
@@ -168,7 +187,15 @@ export default function Form() {
               <Input
                 {...register("total_invoice_amount", {
                   valueAsNumber: true,
+                  onChange: (e) => {
+                    const [tax_invoice_amount] = getValues(['tax_invoice_amount'])
+                    const amount_before_tax = (parseFloat(e.target.value) - parseFloat(tax_invoice_amount))
+                    if(!isNaN(amount_before_tax)){
+                      setValue('amount_before_tax', amount_before_tax)
+                    }
+                  }
                 })}
+                placeholder="111000"
                 type="number"
                 size={"sm"}
               />
@@ -181,6 +208,7 @@ export default function Form() {
               </FormLabel>
               <Input
                 {...register("tax_invoice_no")}
+                placeholder="0"
                 type="text"
                 name="tax_invoice_no"
                 size={"sm"}
@@ -227,7 +255,7 @@ export default function Form() {
           {/* <Heading size="md" my="30" >
             QR Code will appear here : 👇🏼
           </Heading> */}
-          {isSubmitted ? (
+          {isSubmitSuccessful ? (
             <Flex m={"auto"} justifyContent={"center"}>
               <PdfModify qrcode={response} />
             </Flex>
