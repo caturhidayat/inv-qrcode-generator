@@ -2,29 +2,51 @@ import { z } from "zod";
 
 // TODO: Form Validation
 export const FormSchema = z.object({
-  invoice_no: z.string(),
-  tax_invoice_no: z.string().max(16),
+  invoice_no: z.string().min(1, {
+    message: "Invoice Number is required",
+  }),
+  tax_invoice_no: z
+    .string()
+    .min(1, {
+      message: "Tax Invoice Number is required",
+    })
+    .max(16),
   // tax_invoice_no: z
   //     .number()
   //     .nonnegative()
   //     .lte(9999999999999999, {
   //         message: "Number can't be more than 16 digits",
   //     }),
-  amount_before_tax: z.number().nonnegative().lte(9999999999999999, {
-    message: "Number can't be more than 16 digits",
-  }),
-  tax_invoice_amount: z.number().nonnegative().lte(9999999999999999, {
-    message: "Number can't be more than 16 digits",
-  }),
+  amount_before_tax: z
+    .number({
+      invalid_type_error: "Amount Before tax is required",
+    })
+    .nonnegative()
+    .lte(9999999999999999, {
+      message: "Number can't be more than 16 digits",
+    }),
+  tax_invoice_amount: z
+    .number({
+      invalid_type_error: "Tax Invoice Amount is required",
+    })
+    .nonnegative()
+    .lte(9999999999999999, {
+      message: "Number can't be more than 16 digits",
+    }),
   // luxury_tax_amount: z.number().nonnegative().lte(9999999999999999, {
   //   message: "Number can't be more than 16 digits",
   // }),
   // pph_tax_amount: z.number().nonnegative().lte(9999999999999999, {
   //   message: "Number can't be more than 16 digits",
   // }),
-  total_invoice_amount: z.number().nonnegative().lte(9999999999999999, {
-    message: "Number can't be more than 16 digits",
-  }),
+  total_invoice_amount: z
+    .number({
+      invalid_type_error: "Total Amount is required",
+    })
+    .nonnegative()
+    .lte(9999999999999999, {
+      message: "Number can't be more than 16 digits",
+    }),
 });
 
 // TODO: Validate File Input
