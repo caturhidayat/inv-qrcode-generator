@@ -1,4 +1,12 @@
-import { Box, FormLabel, Input, Button, Text, Image, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  FormLabel,
+  Input,
+  Button,
+  Text,
+  Image,
+  Flex,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import AlertInput from "./AlertInput";
@@ -113,14 +121,18 @@ export default function PdfModify({ qrcode }) {
       <form onSubmit={handleSubmit(onSubmit)}>
         {qrcode ? (
           <Flex flexDir={"column"} m={"auto"} justifyContent={"center"}>
-              <Image
-                src={qrcode}
-                alt="qrcode"
-                width={{ xs: "180px", md: "250px" }}
-                height={{ xs: "180px", md: "250px" }}
-              />
-            
-            <FormLabel textAlign={"center"} fontSize={"xl"} htmlFor="select_file">
+            <Image
+              src={qrcode}
+              alt="qrcode"
+              width={{ xs: "180px", md: "250px" }}
+              height={{ xs: "180px", md: "250px" }}
+            />
+
+            <FormLabel
+              textAlign={"center"}
+              fontSize={"xl"}
+              htmlFor="select_file"
+            >
               QR Code Generated 🔥
             </FormLabel>
             <br />
@@ -143,12 +155,12 @@ export default function PdfModify({ qrcode }) {
             </FormLabel>
           </div>
         ) : (
-          <strong>{watch("files")[0].name}</strong>
+          // <strong>{watch("files")[0].name}</strong>
+          <Text>Embedded QR to PDF already done! 🎉</Text>
         )}
         <br />
         {pdffile ? (
           <Box>
-            <Text>embedded QR to PDF already done! 🎉</Text>
             <FormLabel mt="5" htmlFor="select_file">
               Download PDF with QR?? 📥
             </FormLabel>
