@@ -182,7 +182,7 @@ export default function Form() {
               )} */}
 
               <FormLabel htmlFor="total_invoice_amount">
-                Total Invoive Amount
+                Total Amount
               </FormLabel>
               <Input
                 {...register("total_invoice_amount", {
@@ -204,7 +204,7 @@ export default function Form() {
               )}
 
               <FormLabel pt={6} htmlFor="tax_invoice_no">
-                Tax Invoice No
+                Tax Invoice Number
               </FormLabel>
               <Input
                 {...register("tax_invoice_no")}
