@@ -2,22 +2,16 @@ import { z } from "zod";
 
 // TODO: Form Validation
 export const FormSchema = z.object({
-  invoice_no: z.string().min(1, {
+  no_invoice: z.string().min(1, {
     message: "Invoice Number is required",
   }),
-  tax_invoice_no: z
+  tax_no_invoice: z
     .string()
     .min(1, {
       message: "Tax Invoice Number is required",
     })
     .max(16),
-  // tax_invoice_no: z
-  //     .number()
-  //     .nonnegative()
-  //     .lte(9999999999999999, {
-  //         message: "Number can't be more than 16 digits",
-  //     }),
-  amount_before_tax: z
+  amount: z
     .number({
       invalid_type_error: "Amount Before tax is required",
     })
@@ -25,7 +19,7 @@ export const FormSchema = z.object({
     .lte(9999999999999999, {
       message: "Number can't be more than 16 digits",
     }),
-  tax_invoice_amount: z
+  tax_amount: z
     .number({
       invalid_type_error: "Tax Invoice Amount is required",
     })
@@ -33,13 +27,7 @@ export const FormSchema = z.object({
     .lte(9999999999999999, {
       message: "Number can't be more than 16 digits",
     }),
-  // luxury_tax_amount: z.number().nonnegative().lte(9999999999999999, {
-  //   message: "Number can't be more than 16 digits",
-  // }),
-  // pph_tax_amount: z.number().nonnegative().lte(9999999999999999, {
-  //   message: "Number can't be more than 16 digits",
-  // }),
-  total_invoice_amount: z
+  total: z
     .number({
       invalid_type_error: "Total Amount is required",
     })
@@ -50,29 +38,19 @@ export const FormSchema = z.object({
 });
 
 // TODO: Validate File Input
-const MAX_FILE_SIZE = 3000000;
-function checkFileType(file) {
-  if (file?.name) {
-    const fileType = file.name.split(".").pop();
-    if (fileType === "pdf" || fileType === "PDF") {
-      return true;
-    }
-  }
-  return false;
-}
-
 export const FileSchema = z.object({
   files: z
     .any()
-    .refine((files) => files.length !== 0, {
-      message: "File is required 🗳",
-    })
-    .refine((files) => files.size < MAX_FILE_SIZE, {
-      message: "Max size is 3MB",
-    })
-    .refine((files) => checkFileType(files), {
-      message: "Only PDF file format are supported",
-    }),
+    .refine((files) => files.length > 0, { message: "File is required" })
+    .refine(
+      (files) => files.length === 0 || files[0].size <= 5 * 1024 * 1024, // 5MB
+      { message: "Max file size is 5MB" }
+    )
+    .refine(
+      (files) =>
+        files.length === 0 || ["application/pdf"].includes(files[0].type),
+      { message: "Only PDF files are accepted" }
+    ),
 });
 
 // TODO: Validation decrypton key

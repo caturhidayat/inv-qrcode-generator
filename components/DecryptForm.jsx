@@ -2,7 +2,6 @@ import {
   Textarea,
   Input,
   Box,
-  Flex,
   FormLabel,
   Button,
   FormHelperText,
@@ -29,10 +28,8 @@ export default function DecryptForm() {
       secret_key: null,
     },
   });
-  // Handle SUbmit Data
+  // Handle Submit Data
   const submitData = (data) => {
-    // if(!data.decryption_text && !data.secret_key) return errors
-
     const jsonForDecrypt = {
       decryption_text: data.decryption_text,
       secret_key: data.secret_key,
@@ -59,7 +56,6 @@ export default function DecryptForm() {
       }}
       gap={"4"}
     >
-      {/* <Flex gap="10" justifyContent="center"> */}
       <Box mx={"auto"} width={"full"}>
         <form onSubmit={handleSubmit(submitData)}>
           <FormControl>
@@ -72,7 +68,7 @@ export default function DecryptForm() {
               Input text encrypted in here to decrypt 🔓
             </FormHelperText>
             <FormLabel my="5">Input Key :</FormLabel>
-            <Input {...register("secret_key")} width={"full"}/>
+            <Input {...register("secret_key")} width={"full"} />
             {errors.secret_key && (
               <AlertInput message={errors.secret_key.message} />
             )}

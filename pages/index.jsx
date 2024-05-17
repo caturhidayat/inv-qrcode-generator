@@ -1,12 +1,11 @@
 import Form from "@/components/Form";
-import Layout from "@/components/Layout";
+import FormInput from "@/components/FormInput";
 
 export default function Home() {
   return (
     <>
-      <Layout>
-        <Form />
-      </Layout>
+      {/* <Form /> */}
+      <FormInput />
     </>
   );
 }
