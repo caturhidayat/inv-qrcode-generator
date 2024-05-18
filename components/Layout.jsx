@@ -1,11 +1,10 @@
-import Header from "./Header";
-import { Container } from "@chakra-ui/react";
+import Navbar from "./Navbar";
 
 export default function Layout({ children }) {
   return (
     <>
-      <Header />
-      <Container maxW="container.md">{children}</Container>
+      <Navbar />
+      <div className="container mx-auto px-4 pt-2">{children}</div>
     </>
   );
 }
