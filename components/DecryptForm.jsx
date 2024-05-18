@@ -2,7 +2,6 @@ import {
   Textarea,
   Input,
   Box,
-  Flex,
   FormLabel,
   Button,
   FormHelperText,
@@ -29,10 +28,8 @@ export default function DecryptForm() {
       secret_key: null,
     },
   });
-  // Handle SUbmit Data
+  // Handle Submit Data
   const submitData = (data) => {
-    // if(!data.decryption_text && !data.secret_key) return errors
-
     const jsonForDecrypt = {
       decryption_text: data.decryption_text,
       secret_key: data.secret_key,
@@ -51,42 +48,43 @@ export default function DecryptForm() {
   };
 
   return (
-    <Box
-      my="5"
-      display={{
-        sm: "column",
-        md: "flex",
-      }}
-      gap={"4"}
-    >
-      {/* <Flex gap="10" justifyContent="center"> */}
-      <Box mx={"auto"} width={"full"}>
-        <form onSubmit={handleSubmit(submitData)}>
-          <FormControl>
-            <FormLabel>Input Encryptd Text</FormLabel>
-            <Textarea {...register("decryption_text")} width={"full"} />
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
+      <div>
+        <form className="form-control" onSubmit={handleSubmit(submitData)}>
+          
+            <label className="label">Input Encryptd Text</label>
+            <textarea className="textarea textarea-secondary" {...register("decryption_text")} width={"full"} />
             {errors.decryption_text && (
               <AlertInput message={errors.decryption_text.message} />
             )}
-            <FormHelperText width={"full"} color={"gray.400"}>
-              Input text encrypted in here to decrypt 🔓
-            </FormHelperText>
-            <FormLabel my="5">Input Key :</FormLabel>
-            <Input {...register("secret_key")} width={"full"}/>
+            <div className="lebel">
+              <span className="label-text-alt text-slate-500">Input text encrypted in here to decrypt 🔓</span>
+              
+            </div>
+            <label className="label">Input Key :</label>
+            <input className="input input-sm input-secondary" {...register("secret_key")} width={"full"} />
             {errors.secret_key && (
               <AlertInput message={errors.secret_key.message} />
             )}
             <br />
-            <Button size={"sm"} type="submit" my="4" colorScheme="orange">
+            <button className="btn btn-sm bg-orange-500">
               Decrypt
-            </Button>
-          </FormControl>
+            </button>
+          
         </form>
-      </Box>
-      <Box mx={"auto"} width={"full"}>
-        <FormLabel>Decrypted Text</FormLabel>
-        <Textarea value={decrypted} width={"full"} />
-      </Box>
-    </Box>
+      </div>
+      <div>
+        <form className="form-control">
+          <label className="label" htmlFor="decrypt_text">
+            <p>Decrypted Text</p>
+          </label>
+          <textarea
+            name="decrypt_text"
+            className="textarea textarea-secondary"
+            value={decrypted}
+          />
+        </form>
+      </div>
+    </div>
   );
 }
