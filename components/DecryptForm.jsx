@@ -1,12 +1,3 @@
-import {
-  Textarea,
-  Input,
-  Box,
-  FormLabel,
-  Button,
-  FormHelperText,
-  FormControl,
-} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { decryption } from "@/utils/encrypt-invoice";
 import { useState } from "react";
@@ -53,7 +44,7 @@ export default function DecryptForm() {
         <form className="form-control" onSubmit={handleSubmit(submitData)}>
           
             <label className="label">Input Encryptd Text</label>
-            <textarea className="textarea textarea-secondary" {...register("decryption_text")} width={"full"} />
+            <textarea className="textarea textarea-secondary" {...register("decryption_text")} />
             {errors.decryption_text && (
               <AlertInput message={errors.decryption_text.message} />
             )}
@@ -62,7 +53,7 @@ export default function DecryptForm() {
               
             </div>
             <label className="label">Input Key :</label>
-            <input className="input input-sm input-secondary" {...register("secret_key")} width={"full"} />
+            <input className="input input-sm input-secondary" {...register("secret_key")} />
             {errors.secret_key && (
               <AlertInput message={errors.secret_key.message} />
             )}
