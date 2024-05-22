@@ -92,8 +92,11 @@ export default function FormInput() {
               valueAsNumber: true,
               onChange: (e) => {
                 const [tax_amount] = getValues(["tax_amount"]);
+
+                const pph23 = parseFloat(e.target.value) - parseFloat(e.target.value) * 0.02;
+                const afterPph23 = parseFloat(e.target.value) - pph23
                 const total =
-                  parseFloat(e.target.value) + parseFloat(tax_amount);
+                  parseFloat(afterPph23) + parseFloat(tax_amount);
                 if (!isNaN(total)) {
                   setValue("total", total);
                 }
@@ -113,7 +116,9 @@ export default function FormInput() {
               valueAsNumber: true,
               onChange: (e) => {
                 const [amount] = getValues(["amount"]);
-                const total = parseFloat(e.target.value) + parseFloat(amount);
+                const pph23 = parseFloat(amount) * 0.02;
+                const afterPph23 = parseFloat(amount) - pph23
+                const total = parseFloat(e.target.value) + parseFloat(afterPph23);
                 if (!isNaN(total)) {
                   setValue("total", total);
                 }
