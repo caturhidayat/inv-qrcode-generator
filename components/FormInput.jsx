@@ -36,6 +36,7 @@ export default function FormInput() {
     },
   });
 
+  // Calculate Total Amount with PPH
   const calculateTotal = async () => {
     const [amount, tax_amount, pph] = getValues([
       "amount",

@@ -16,6 +16,7 @@ export default function PdfModify({ qrcode }) {
   });
   const [pdffile, setPdffile] = useState("");
 
+  // Handle Submit
   const onSubmit = (data) => {
     if (data.files.length > 0) {
       handleOnChangeInput();
@@ -23,11 +24,13 @@ export default function PdfModify({ qrcode }) {
     console.log(data);
   };
 
+  // Handle Chanage on Input File
   const handleOnChangeInput = () => {
     const value = getValues();
 
     const file = value.files[0];
 
+    // Reading File selected
     const reader = new FileReader();
 
     reader.onload = async () => {
@@ -49,12 +52,12 @@ export default function PdfModify({ qrcode }) {
       // TODO: Get The width and height the first page
       const { width, height } = firstPage.getSize();
 
-      // TODO: Draw PNG image to PDF
+      // TODO: Draw/Embed PNG image QR to PDF
       firstPage.drawImage(pngImage, {
-        x: width / 14 - 10,
-        y: height / 4 + 30,
-        width: 130,
-        height: 130,
+        x: width / 14 - 10, // Calculate page size
+        y: height / 4 + 30, // Calculate page size
+        width: 130, // Positioning Cordinate to placement QR
+        height: 130, // Positioning Cordinate to placement QR
       });
 
       // TODO: Serialize the PDFDoc to bytes (a Unit8Array)
@@ -66,6 +69,7 @@ export default function PdfModify({ qrcode }) {
     reader.readAsArrayBuffer(file);
   };
 
+  // Function fot Download PDF File after QR Embbeded
   const downloadPDF = () => {
     const url = window.URL.createObjectURL(new Blob([pdffile]));
     const urlObject = document.createElement("a");
