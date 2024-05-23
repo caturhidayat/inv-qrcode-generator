@@ -23,17 +23,32 @@ export default function FormInput() {
     reset,
     setValue,
     getValues,
-    formState: { errors, isSubmitted, isSubmitSuccessful },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       no_invoice: "",
       tax_no_invoice: "",
       amount: "",
+      pph: "",
       tax_amount: "",
       total: "",
     },
   });
+
+  const calculateTotal = async () => {
+    const [amount, tax_amount, pph] = getValues([
+      "amount",
+      "tax_amount",
+      "pph",
+    ]);
+    const pph_amount = parseFloat(amount) * parseFloat(pph);
+    const after_pph = parseFloat(amount) - parseFloat(pph_amount);
+    const total = parseFloat(after_pph) + parseFloat(tax_amount);
+    if (!isNaN(total)) {
+      setValue("total", total);
+    }
+  };
 
   // * Submit Function
   const submitData = async (data) => {
@@ -90,17 +105,7 @@ export default function FormInput() {
           <input
             {...register("amount", {
               valueAsNumber: true,
-              onChange: (e) => {
-                const [tax_amount] = getValues(["tax_amount"]);
-
-                const pph23 = parseFloat(e.target.value) - parseFloat(e.target.value) * 0.02;
-                const afterPph23 = parseFloat(e.target.value) - pph23
-                const total =
-                  parseFloat(afterPph23) + parseFloat(tax_amount);
-                if (!isNaN(total)) {
-                  setValue("total", total);
-                }
-              },
+              onChange: () => calculateTotal(),
             })}
             placeholder="100000"
             className="input input-sm rounded-none input-secondary"
@@ -114,15 +119,7 @@ export default function FormInput() {
           <input
             {...register("tax_amount", {
               valueAsNumber: true,
-              onChange: (e) => {
-                const [amount] = getValues(["amount"]);
-                const pph23 = parseFloat(amount) * 0.02;
-                const afterPph23 = parseFloat(amount) - pph23
-                const total = parseFloat(e.target.value) + parseFloat(afterPph23);
-                if (!isNaN(total)) {
-                  setValue("total", total);
-                }
-              },
+              onChange: () => calculateTotal(),
             })}
             placeholder="11000"
             className="input input-sm rounded-none input-secondary"
@@ -132,6 +129,48 @@ export default function FormInput() {
           {errors.tax_amount && (
             <AlertInput message={errors.tax_amount.message} />
           )}
+          <div className="flex gap-6 py-2">
+            <label className="label cursor-pointer">
+              <input
+                type="radio"
+                name="radio-10"
+                className="radio checked:bg-blue-700"
+                value={0}
+                {...register("pph", {
+                  valueAsNumber: true,
+                  onChange: () => calculateTotal(),
+                })}
+              />
+              <span className="label-text pl-2">0 % PPH</span>
+            </label>
+            <label className="label cursor-pointer">
+              <input
+                type="radio"
+                name="radio-10"
+                className="radio checked:bg-blue-700"
+                value={0.02}
+                {...register("pph", {
+                  valueAsNumber: true,
+                  onChange: () => calculateTotal(),
+                })}
+                defaultChecked
+              />
+              <span className="label-text pl-2">2 % PPH</span>
+            </label>
+            <label className="label cursor-pointer">
+              <input
+                type="radio"
+                name="radio-10"
+                className="radio checked:bg-blue-700"
+                value={0.1}
+                {...register("pph", {
+                  valueAsNumber: true,
+                  onChange: () => calculateTotal(),
+                })}
+              />
+              <span className="label-text pl-2">10 % PPH</span>
+            </label>
+          </div>
           <label className="label" htmlFor="total">
             Total Amount
           </label>
@@ -171,7 +210,10 @@ export default function FormInput() {
               className="btn btn-sm rounded-none bg-blue-800 text-white btn-block"
               type="submit"
             >
-              Generate
+              {isSubmitting ? (
+                <span className="loading loading-spinner"></span>
+              ) : null}
+              {isSubmitting ? "Generating..." : "Generate"}
             </button>
             {isSubmitSuccessful && (
               <button

@@ -27,6 +27,7 @@ export const FormSchema = z.object({
     .lte(9999999999999999, {
       message: "Number can't be more than 16 digits",
     }),
+  pph: z.number(),
   total: z
     .number({
       invalid_type_error: "Total Amount is required",

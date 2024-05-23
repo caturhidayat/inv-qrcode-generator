@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export default function PdfModify({ qrcode }) {
   const {
     register,
-    watch,
     handleSubmit,
     getValues,
     formState: { errors },
@@ -19,7 +18,7 @@ export default function PdfModify({ qrcode }) {
 
   const onSubmit = (data) => {
     if (data.files.length > 0) {
-      handleOnChangeInput()
+      handleOnChangeInput();
     }
     console.log(data);
   };
@@ -89,13 +88,14 @@ export default function PdfModify({ qrcode }) {
               {...register("files")}
             />
           </label>
-        {errors.files && <AlertInput message={errors.files.message} />}
+          {errors.files && <AlertInput message={errors.files.message} />}
         </div>
-
-        <button className="btn btn-sm bg-blue-800 text-white btn-block" type="submit">
+        <button
+          className="btn btn-sm bg-blue-800 text-white btn-block"
+          type="submit"
+        >
           Embed
         </button>
-
         <br />
         {pdffile ? (
           <div>
