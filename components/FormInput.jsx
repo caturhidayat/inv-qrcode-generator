@@ -55,7 +55,6 @@ export default function FormInput() {
   const submitData = async (data) => {
     const visionKey = VISION_KEY;
     const invoice = serializeInvoice(data);
-    console.log(invoice);
 
     const jsonForEncrypt = {
       encryption_text: invoice,
@@ -75,8 +74,6 @@ export default function FormInput() {
       const res = await axios.get("/api/qrcode", {
         params: { encryptionValues },
       });
-      // const res = generateQRCode(encryptionValues)
-      console.log(res.data);
       setResponse(res.data);
     } catch (error) {
       console.log(error);
@@ -133,26 +130,26 @@ export default function FormInput() {
           <div className="flex gap-6 py-2">
             <label className="label cursor-pointer">
               <input
+                name="pph"
                 type="radio"
-                name="radio-10"
-                className="radio checked:bg-blue-700"
+                className="radio radio-sm checked:bg-blue-700"
                 value={0}
                 {...register("pph", {
                   valueAsNumber: true,
-                  onChange: () => calculateTotal(),
+                  onChange: (e) => calculateTotal(),
                 })}
               />
               <span className="label-text pl-2">0 % PPH</span>
             </label>
             <label className="label cursor-pointer">
               <input
+                name="pph"
                 type="radio"
-                name="radio-10"
-                className="radio checked:bg-blue-700"
+                className="radio radio-sm checked:bg-blue-700"
                 value={0.02}
                 {...register("pph", {
                   valueAsNumber: true,
-                  onChange: () => calculateTotal(),
+                  onChange: (e) => calculateTotal(),
                 })}
                 defaultChecked
               />
@@ -160,13 +157,13 @@ export default function FormInput() {
             </label>
             <label className="label cursor-pointer">
               <input
+                name="pph"
                 type="radio"
-                name="radio-10"
-                className="radio checked:bg-blue-700"
+                className="radio radio-sm checked:bg-blue-700"
                 value={0.1}
                 {...register("pph", {
                   valueAsNumber: true,
-                  onChange: () => calculateTotal(),
+                  onChange: (e) => calculateTotal(),
                 })}
               />
               <span className="label-text pl-2">10 % PPH</span>

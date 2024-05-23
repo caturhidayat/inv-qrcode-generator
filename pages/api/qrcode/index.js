@@ -2,7 +2,6 @@ import QRCode from "qrcode";
 
 export default function handler(req, res) {
   const { encryptionValues } = req.query;
-
   if (req.method === "GET") {
     QRCode.toDataURL(encryptionValues, {
       // scale: 2,
