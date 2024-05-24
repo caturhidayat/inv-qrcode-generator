@@ -42,7 +42,7 @@ export default function DecryptForm() {
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
       <div>
         <form className="form-control" onSubmit={handleSubmit(submitData)}>
-            <label className="label">Input Encryptd Text</label>
+            <label className="label">Encryptd Text</label>
             <textarea className="textarea textarea-secondary" {...register("decryption_text")} />
             {errors.decryption_text && (
               <AlertInput message={errors.decryption_text.message} />
@@ -50,7 +50,7 @@ export default function DecryptForm() {
             <div className="lebel">
               <span className="label-text-alt text-slate-500">Input text encrypted in here to decrypt 🔓</span>
             </div>
-            <label className="label">Input Key :</label>
+            <label className="label">Private Key :</label>
             <input className="input input-sm input-secondary" {...register("secret_key")} />
             {errors.secret_key && (
               <AlertInput message={errors.secret_key.message} />
