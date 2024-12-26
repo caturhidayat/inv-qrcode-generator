@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Button } from "./ui/button";
 
 const NavbarItems = [
   {
@@ -35,9 +36,7 @@ export default function Navbar() {
             <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
               {NavbarItems.map((item, i) => (
                 <Link key={i} href={item.href}>
-                  <button className="btn rounded-none bg-blue-800 text-white btn-block btn-sm sm:btn-sm">
-                    {item.label}
-                  </button>
+                  <Button variant="link">{item.label}</Button>
                 </Link>
               ))}
             </div>
