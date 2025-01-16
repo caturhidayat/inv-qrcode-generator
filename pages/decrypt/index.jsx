@@ -1,12 +1,13 @@
-import Layout from "@/components/Layout";
 import DecryptForm from "@/components/DecryptForm";
+import Head from "next/head";
 
 export default function Decrypt() {
   return (
     <>
-      <Layout>
-        <DecryptForm />
-      </Layout>
+      <Head>
+        <title>Decrypt</title>
+      </Head>
+      <DecryptForm />
     </>
   );
 }

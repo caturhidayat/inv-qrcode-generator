@@ -19,9 +19,9 @@ export let encryption = (event) => {
 };
 
 export let decryption = (event) => {
-  console.log(event);
-  var key = CryptoJS.enc.Utf8.parse(event.secret_key);
-  var iv = CryptoJS.enc.Utf8.parse(event.secret_iv);
+  // console.log(event);
+  const key = CryptoJS.enc.Utf8.parse(event.secret_key);
+  const iv = CryptoJS.enc.Utf8.parse(event.secret_iv);
 
   if (event.output_type == "HEX") {
     event.decryption_text = CryptoJS.enc.Hex.parse(event.decryption_text);
@@ -29,14 +29,17 @@ export let decryption = (event) => {
   }
 
   try {
-    var decrypted = CryptoJS.AES.decrypt(event.decryption_text, key, {
+    const decrypted = CryptoJS.AES.decrypt(event.decryption_text, key, {
       keySize: event.key_size / 32,
       iv: iv,
       mode: event.mode == "CBC" ? CryptoJS.mode.CBC : CryptoJS.mode.ECB,
     });
+    if(decrypted.toString(CryptoJS.enc.Utf8) === ""){
+      throw new Error("Invalid Key ❌")
+    }
     return decrypted.toString(CryptoJS.enc.Utf8);
   } catch (e) {
-    console.log("Decryption Error", e);
-    // return e;
+    // console.log("Decryption Error", e);
+    throw new Error(e);
   }
 };

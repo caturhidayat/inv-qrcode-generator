@@ -1,55 +1,43 @@
-import { Box, FormLabel, Input, Button, Text, Image } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import AlertInput from "./AlertInput";
 import { PDFDocument } from "pdf-lib";
 import { FileSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 export default function PdfModify({ qrcode }) {
   const {
     register,
-    watch,
     handleSubmit,
     getValues,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(FileSchema),
   });
-  // const [image, setImage] = useState("");
   const [pdffile, setPdffile] = useState("");
 
-  const readerPdfFile = (file, cb) => {
-    const read = new FileReader();
-    read.onload = () => cb(null, read.result);
-    read.onload = (err) => cb(err);
-    read.readAsArrayBuffer(file);
-  };
-
+  // Handle Submit
   const onSubmit = (data) => {
     if (data.files.length > 0) {
-      // const uploaded = convert2base64(data.files[0]);
-      // console.log({ up: uploaded });
+      handleOnChangeInput();
     }
     console.log(data);
   };
 
+  // Handle Chanage on Input File
   const handleOnChangeInput = () => {
     const value = getValues();
-    // onSubmit(value)
-    // readerPdfFile(value.files[0], (err, res) => {
-    //     console.log(res)
-    // });
-    const file = value.files[0];
-    // console.log({val: value, qr: qrcode})
-    // console.log(c2a);
 
+    const file = value.files[0];
+
+    // Reading File selected
     const reader = new FileReader();
 
     reader.onload = async () => {
-      // console.log(reader.result)
       const arrayBuffer = reader.result;
-      // console.log(arrayBuffer);
       const pngImageBytes = await fetch(qrcode).then((res) =>
         res.arrayBuffer()
       );
@@ -57,16 +45,9 @@ export default function PdfModify({ qrcode }) {
       // TODO: Load a PDFFoc from existing PDF Bytes
       const pdfDoc = await PDFDocument.load(arrayBuffer);
 
-      // TODO: add a blank page to PDF file
-      // const page = pdfDoc.addPage()
-      // page.moveTo(100, page.getHeight() -5)
-
       // TODO: Embed PNG image bytes
       const pngImage = await pdfDoc.embedPng(pngImageBytes);
 
-      // const helvetica = await pdfDoc.embedStandardFont(
-      //     StandardFonts.Helvetica
-      // );
       // TODO: Get First Page of the doc
       const pages = pdfDoc.getPages();
       const firstPage = pages[0];
@@ -74,20 +55,12 @@ export default function PdfModify({ qrcode }) {
       // TODO: Get The width and height the first page
       const { width, height } = firstPage.getSize();
 
-      // TODO: Draw SVG to PDF
-      // firstPage.moveDown(20)
-      // firstPage.drawImage(qrcode)
-      // firstPage.drawSvgPath(qrcode, { x: 5, y: 5});
-      // console.log({ qr: qrcode });
-
-      // SVGtoPDF(firstPage, qrcode, 5, 5)
-
-      // TODO: Draw PNG image to PDF
+      // TODO: Draw/Embed PNG image QR to PDF
       firstPage.drawImage(pngImage, {
-        x: width / 14 - 10,
-        y: height / 4 + 30,
-        width: 150,
-        height: 150,
+        x: width / 14 - 10, // Calculate page size
+        y: height / 4 + 30, // Calculate page size
+        width: 130, // Positioning Cordinate to placement QR
+        height: 130, // Positioning Cordinate to placement QR
       });
 
       // TODO: Serialize the PDFDoc to bytes (a Unit8Array)
@@ -99,6 +72,7 @@ export default function PdfModify({ qrcode }) {
     reader.readAsArrayBuffer(file);
   };
 
+  // Function fot Download PDF File after QR Embbeded
   const downloadPDF = () => {
     const url = window.URL.createObjectURL(new Blob([pdffile]));
     const urlObject = document.createElement("a");
@@ -109,63 +83,28 @@ export default function PdfModify({ qrcode }) {
   };
 
   return (
-    <div>
+    <div className="flex justify-center content-center">
       <form onSubmit={handleSubmit(onSubmit)}>
-        {qrcode ? (
-          <div>
-            <Box
-              as="div"
-              border="dashed"
-              borderColor="blackAlpha.500"
-              borderRadius="10"
-              width={{ sm: "200px", md: "280px" }}
-              height={{ sm: "200px", md: "280px" }}
-              justifyItems="center"
-              justifyContent="center"
-            >
-              <Image
-                src={qrcode}
-                alt="qrcode"
-                width={{ sm: "200px", md: "280px" }}
-                height={{ sm: "200px", md: "280px" }}
-              />
-            </Box>
-            <FormLabel mt="5" htmlFor="select_file" >
-              QR Code Generated 🔥
-            </FormLabel>
-            <br />
-          </div>
-        ) : null}
-        {!watch("files") || watch("files").length === 0 ? (
-          <div>
+        <div className="my-2">
+          <Label className="form-control w-full max-w-xs">
+            <p className="py-2">Please Select PDF File</p>
             <Input
-              py="1"
               type="file"
+              className="w-full max-w-xs"
               id="fileupload"
-              {...register("files", {
-                onChange: handleOnChangeInput,
-                // onChange: (e)=> console.log(e.target.value)
-              })}
+              {...register("files")}
             />
-            {errors.files && <AlertInput message={errors.files.message} />}
-            <FormLabel htmlFor="fileupload" cursor="pointer">
-              Please Select PDF File... 📄
-            </FormLabel>
-          </div>
-        ) : (
-          <strong>{watch("files")[0].name}</strong>
-        )}
+          </Label>
+          {errors.files && <AlertInput message={errors.files.message} />}
+        </div>
+
+        <Button type="submit">Embed</Button>
+
         <br />
         {pdffile ? (
-          <Box>
-            <Text>embedded QR to PDF already done!!! 🎉</Text>
-            <FormLabel mt="5" htmlFor="select_file">
-              Download PDF with QR?? 🍔🍔🍔
-            </FormLabel>
-            <Button onClick={downloadPDF} mt="2" colorScheme="facebook">
-              Download PDF
-            </Button>
-          </Box>
+          <div>
+            <Button onClick={downloadPDF}>Download PDF</Button>
+          </div>
         ) : null}
       </form>
     </div>

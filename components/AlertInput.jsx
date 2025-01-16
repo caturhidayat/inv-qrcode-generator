@@ -1,9 +1,3 @@
-import { Tag } from "@chakra-ui/react";
-
 export default function AlertInput(props) {
-  return (
-    <Tag mt="1" size="sm" colorScheme="red">
-      {props.message}
-    </Tag>
-  );
+  return <span className="text-red-500 text-xs">{props.message}</span>;
 }

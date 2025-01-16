@@ -1,12 +1,10 @@
-import Form from "@/components/Form";
-import Layout from "@/components/Layout";
+import FormInput from "@/components/FormInput";
+import Head from "next/head";
 
 export default function Home() {
   return (
-    <>
-      <Layout>
-        <Form />
-      </Layout>
-    </>
+    <div className="container mx-auto">
+      <FormInput />
+    </div>
   );
 }
