@@ -26,23 +26,38 @@ export default function FormInput() {
     reset,
     setValue,
     getValues,
-    formState: { errors, isSubmitted, isSubmitSuccessful },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       no_invoice: "",
       tax_no_invoice: "",
       amount: "",
+      pph: "",
       tax_amount: "",
       total: "",
     },
   });
 
+  // Calculate Total Amount with PPH
+  const calculateTotal = async () => {
+    const [amount, tax_amount, pph] = getValues([
+      "amount",
+      "tax_amount",
+      "pph",
+    ]);
+    const pph_amount = parseFloat(amount) * parseFloat(pph);
+    const after_pph = parseFloat(amount) - parseFloat(pph_amount);
+    const total = parseFloat(after_pph) + parseFloat(tax_amount);
+    if (!isNaN(total)) {
+      setValue("total", total);
+    }
+  };
+
   // * Submit Function
   const submitData = async (data) => {
     const visionKey = VISION_KEY;
     const invoice = serializeInvoice(data);
-    console.log(invoice);
 
     const jsonForEncrypt = {
       encryption_text: invoice,
@@ -62,8 +77,6 @@ export default function FormInput() {
       const res = await axios.get("/api/qrcode", {
         params: { encryptionValues },
       });
-      // const res = generateQRCode(encryptionValues)
-      console.log(res.data);
       setResponse(res.data);
     } catch (error) {
       console.log(error);
@@ -116,6 +129,7 @@ export default function FormInput() {
           <Input
             {...register("tax_amount", {
               valueAsNumber: true,
+
               onChange: (e) => {
                 const [amount] = getValues(["amount"]);
                 const pph23 = parseFloat(amount) * 0.02;
