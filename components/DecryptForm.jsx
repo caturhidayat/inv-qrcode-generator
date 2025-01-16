@@ -4,6 +4,10 @@ import { useState } from "react";
 import { decryptSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AlertInput from "./AlertInput";
+import { Textarea } from "./ui/textarea";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Button } from "./ui/button";
 
 export default function DecryptForm() {
   const [decrypted, setDecrypted] = useState();
@@ -39,41 +43,34 @@ export default function DecryptForm() {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 space-y-3">
       <div>
         <form className="form-control" onSubmit={handleSubmit(submitData)}>
-          
-            <label className="label">Input Encryptd Text</label>
-            <textarea className="textarea textarea-secondary" {...register("decryption_text")} />
-            {errors.decryption_text && (
-              <AlertInput message={errors.decryption_text.message} />
-            )}
-            <div className="lebel">
-              <span className="label-text-alt text-slate-500">Input text encrypted in here to decrypt 🔓</span>
-              
-            </div>
-            <label className="label">Input Key :</label>
-            <input className="input input-sm input-secondary" {...register("secret_key")} />
-            {errors.secret_key && (
-              <AlertInput message={errors.secret_key.message} />
-            )}
-            <br />
-            <button className="btn btn-sm bg-orange-500">
-              Decrypt
-            </button>
-          
+          <Label htmlFor="decryption_text">Input Encryptd Text</Label>
+          <Textarea name="decryption_text" {...register("decryption_text")} />
+          {errors.decryption_text && (
+            <AlertInput message={errors.decryption_text.message} />
+          )}
+          <div>
+            <span className="text-xs text-gray-500">
+              Input text encrypted in here to decrypt 🔓
+            </span>
+          </div>
+          <Label>Input Key :</Label>
+          <Input {...register("secret_key")} />
+          {errors.secret_key && (
+            <AlertInput message={errors.secret_key.message} />
+          )}
+          <br />
+          <Button>Decrypt</Button>
         </form>
       </div>
       <div>
         <form className="form-control">
-          <label className="label" htmlFor="decrypt_text">
+          <Label htmlFor="decrypt_text">
             <p>Decrypted Text</p>
-          </label>
-          <textarea
-            name="decrypt_text"
-            className="textarea textarea-secondary"
-            value={decrypted}
-          />
+          </Label>
+          <Textarea name="decrypt_text" value={decrypted} />
         </form>
       </div>
     </div>
