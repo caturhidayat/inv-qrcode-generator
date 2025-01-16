@@ -10,7 +10,7 @@ export const FormSchema = z.object({
     .min(1, {
       message: "Tax Invoice Number is required",
     })
-    .max(16),
+    .max(17),
   amount: z
     .number({
       invalid_type_error: "Amount Before tax is required",

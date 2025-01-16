@@ -4,6 +4,9 @@ import AlertInput from "./AlertInput";
 import { PDFDocument } from "pdf-lib";
 import { FileSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 export default function PdfModify({ qrcode }) {
   const {
@@ -83,32 +86,24 @@ export default function PdfModify({ qrcode }) {
     <div className="flex justify-center content-center">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="my-2">
-          <label className="form-control w-full max-w-xs">
+          <Label className="form-control w-full max-w-xs">
             <p className="py-2">Please Select PDF File</p>
-            <input
+            <Input
               type="file"
-              className="file-input file-input-sm file-input-bordered w-full max-w-xs"
+              className="w-full max-w-xs"
               id="fileupload"
               {...register("files")}
             />
-          </label>
+          </Label>
           {errors.files && <AlertInput message={errors.files.message} />}
         </div>
-        <button
-          className="btn btn-sm bg-blue-800 text-white btn-block"
-          type="submit"
-        >
-          Embed
-        </button>
+
+        <Button type="submit">Embed</Button>
+
         <br />
         {pdffile ? (
           <div>
-            <button
-              className="btn btn-block btn-sm mt-2 bg-blue-800 text-white"
-              onClick={downloadPDF}
-            >
-              Download PDF
-            </button>
+            <Button onClick={downloadPDF}>Download PDF</Button>
           </div>
         ) : null}
       </form>

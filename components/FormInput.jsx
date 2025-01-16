@@ -10,6 +10,9 @@ import { FormSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VISION_KEY } from "@/constant";
 import QRCode from "./QRCode";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 export default function FormInput() {
   // * Define State
@@ -84,95 +87,71 @@ export default function FormInput() {
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
       <div>
         <form onSubmit={handleSubmit(submitData)} className="form-control ">
-          <label className="label" htmlFor="no_invoice">
+          <Label className="label" htmlFor="no_invoice">
             No Invoice
-          </label>
-          <input
+          </Label>
+          <Input
             {...register("no_invoice")}
             placeholder="INV-01"
-            className="input input-sm rounded-none input-secondary"
             type="text"
             name="no_invoice"
           />
           {errors.no_invoice && (
             <AlertInput message={errors.no_invoice.message} />
           )}
-          <label className="label" htmlFor="amount">
+          <Label className="label" htmlFor="amount">
             Amount Before Tax
-          </label>
-          <input
+          </Label>
+          <Input
             {...register("amount", {
               valueAsNumber: true,
-              onChange: () => calculateTotal(),
+              onChange: (e) => {
+                const [tax_amount] = getValues(["tax_amount"]);
+
+                const pph23 =
+                  parseFloat(e.target.value) -
+                  parseFloat(e.target.value) * 0.02;
+                const afterPph23 = parseFloat(e.target.value) - pph23;
+                const total = parseFloat(afterPph23) + parseFloat(tax_amount);
+                if (!isNaN(total)) {
+                  setValue("total", total);
+                }
+              },
             })}
             placeholder="100000"
-            className="input input-sm rounded-none input-secondary"
             type="number"
             name="amount"
           />
           {errors.amount && <AlertInput message={errors.amount.message} />}
-          <label className="label" htmlFor="tax_amount">
+          <Label className="label" htmlFor="tax_amount">
             Tax Amount (PPN)
-          </label>
-          <input
+          </Label>
+          <Input
             {...register("tax_amount", {
               valueAsNumber: true,
-              onChange: () => calculateTotal(),
+
+              onChange: (e) => {
+                const [amount] = getValues(["amount"]);
+                const pph23 = parseFloat(amount) * 0.02;
+                const afterPph23 = parseFloat(amount) - pph23;
+                const total =
+                  parseFloat(e.target.value) + parseFloat(afterPph23);
+                if (!isNaN(total)) {
+                  setValue("total", total);
+                }
+              },
             })}
             placeholder="11000"
-            className="input input-sm rounded-none input-secondary"
             type="number"
             name="tax_amount"
           />
           {errors.tax_amount && (
             <AlertInput message={errors.tax_amount.message} />
           )}
-          <div className="flex gap-6 py-2">
-            <label className="label cursor-pointer">
-              <input
-                name="pph"
-                type="radio"
-                className="radio radio-sm checked:bg-blue-700"
-                value={0}
-                {...register("pph", {
-                  valueAsNumber: true,
-                  onChange: (e) => calculateTotal(),
-                })}
-              />
-              <span className="label-text pl-2">0 % PPH</span>
-            </label>
-            <label className="label cursor-pointer">
-              <input
-                name="pph"
-                type="radio"
-                className="radio radio-sm checked:bg-blue-700"
-                value={0.02}
-                {...register("pph", {
-                  valueAsNumber: true,
-                  onChange: (e) => calculateTotal(),
-                })}
-                defaultChecked
-              />
-              <span className="label-text pl-2">2 % PPH</span>
-            </label>
-            <label className="label cursor-pointer">
-              <input
-                name="pph"
-                type="radio"
-                className="radio radio-sm checked:bg-blue-700"
-                value={0.1}
-                {...register("pph", {
-                  valueAsNumber: true,
-                  onChange: (e) => calculateTotal(),
-                })}
-              />
-              <span className="label-text pl-2">10 % PPH</span>
-            </label>
-          </div>
-          <label className="label" htmlFor="total">
+          <Label className="label" htmlFor="total">
             Total Amount
-          </label>
-          <input
+          </Label>
+          <Input
             {...register("total", {
               valueAsNumber: true,
               onChange: (e) => {
@@ -185,18 +164,16 @@ export default function FormInput() {
               },
             })}
             placeholder="111000"
-            className="input input-sm rounded-none input-secondary"
             type="number"
             name="total"
           />
           {errors.total && <AlertInput message={errors.total.message} />}
-          <label className="label" htmlFor="tax_no_invoice">
+          <Label className="label" htmlFor="tax_no_invoice">
             Tax Invoice Number
-          </label>
-          <input
+          </Label>
+          <Input
             {...register("tax_no_invoice")}
             placeholder="0"
-            className="input input-sm rounded-none input-secondary"
             type="text"
             name="tax_no_invoice"
           />
@@ -204,22 +181,11 @@ export default function FormInput() {
             <AlertInput message={errors.tax_no_invoice.message} />
           )}
           <div className="py-6 grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2">
-            <button
-              className="btn btn-sm rounded-none bg-blue-800 text-white btn-block"
-              type="submit"
-            >
-              {isSubmitting ? (
-                <span className="loading loading-spinner"></span>
-              ) : null}
-              {isSubmitting ? "Generating..." : "Generate"}
-            </button>
+            <Button type="submit">Generate</Button>
             {isSubmitSuccessful && (
-              <button
-                className="btn btn-sm rounded-none bg-orange-500 btn-block"
-                onClick={() => reset()}
-              >
+              <Button variant="destructive" onClick={() => reset()}>
                 Reset Form
-              </button>
+              </Button>
             )}
           </div>
         </form>
