@@ -165,6 +165,7 @@ export default function FormInput() {
             })}
             placeholder="111000"
             type="number"
+            step="any"
             name="total"
           />
           {errors.total && <AlertInput message={errors.total.message} />}
